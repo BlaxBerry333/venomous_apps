@@ -1,0 +1,7 @@
+@use "sass:map";
+@use "global_variables";
+
+body,
+#root {
+  min-width: map.get(global_variables.$app-layout, min-width);
+}
