@@ -1,0 +1,109 @@
+version: "3.8"
+
+services:
+  # Admin Client
+  admin_client:
+    image: venomous_apps_admin_client:latest
+    container_name: admin_client
+    build:
+      context: ./admin_client
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - admin_server
+
+  # Admin Server
+  admin_server:
+    image: venomous_apps_admin_server:latest
+    container_name: admin_server
+    build:
+      context: ./admin_server
+      dockerfile: Dockerfile.dev
+    command: sh -c "
+      python manage.py migrate &&
+      export DJANGO_SUPERUSER_USERNAME=admin &&
+      export DJANGO_SUPERUSER_EMAIL=admin@example.com &&
+      export DJANGO_SUPERUSER_PASSWORD=admin &&
+      python manage.py createsuperuser --noinput &&
+      python manage.py runserver 0.0.0.0:8080
+      "
+    ports:
+      - "8080:8080"
+    depends_on:
+      admin_server_db:
+        condition: service_healthy
+    networks:
+      - venomous_app_network
+
+  # Admin Server Database ( PostgreSQL )
+  admin_server_db:
+    image: postgres:latest
+    container_name: admin_server_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: admin_server_db
+    volumes:
+      - admin_server_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d admin_server_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - venomous_app_network
+
+  # BFF
+  bff:
+    image: venomous_apps_bff:latest
+    container_name: bff
+    build:
+      context: ./bff
+      dockerfile: Dockerfile.dev
+    ports:
+      - "9000:9000"
+
+  # Notes App
+  notes_app:
+    image: venomous_apps_notes_app:latest
+    container_name: notes_app
+    build:
+      context: ./notes_app
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3600:3600"
+    depends_on:
+      - notes_app_db
+
+  # Notes App Database ( MongoDB )
+  notes_app_db:
+    image: mongo:latest
+    container_name: notes_app_db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpass
+    volumes:
+      - notes_app_db:/data/db
+
+  # Redis
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  admin_server_db:
+  notes_app_db:
+  redis_data:
+
+networks:
+  venomous_app_network:
+    driver: bridge

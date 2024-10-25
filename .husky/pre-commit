@@ -1,0 +1,43 @@
+COLOR_PURPLE='\033[0;35m'
+COLOR_GREEN='\033[0;32m'
+COLOR_NOCOLOR='\033[0m'
+
+
+# admin client
+echo "${COLOR_PURPLE}[Husky pre-commit]${COLOR_NOCOLOR} checking scripts of admin_client..."
+cd admin_client
+npm run check-all
+npm run check-packages
+npm run format-all
+echo "${COLOR_GREEN}OK...${COLOR_NOCOLOR}"
+cd -
+
+
+# admin server
+echo "${COLOR_PURPLE}[Husky pre-commit]${COLOR_NOCOLOR} checking scripts of admin_server..."
+cd admin_server
+source .venv/bin/activate
+make check-format
+deactivate
+echo "${COLOR_GREEN}OK...${COLOR_NOCOLOR}"
+cd -
+
+
+# bff
+echo "${COLOR_PURPLE}[Husky pre-commit]${COLOR_NOCOLOR} checking scripts of bff..."
+cd bff
+npm run check-all
+npm run check-packages
+npm run format-all
+echo "${COLOR_GREEN}OK...${COLOR_NOCOLOR}"
+cd -
+
+
+# notes app
+echo "${COLOR_PURPLE}[Husky pre-commit]${COLOR_NOCOLOR} checking scripts of notes_app..."
+cd notes_app
+npm run check-all
+npm run check-packages
+npm run format-all
+echo "${COLOR_GREEN}OK...${COLOR_NOCOLOR}"
+cd -
