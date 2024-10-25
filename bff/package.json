@@ -1,0 +1,41 @@
+{
+  "name": "venomous_apps_bff",
+  "private": true,
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "author": "blaxberry333",
+  "description": "blaxberry333's venomous apps' BFF",
+  "main": "dist/index.js",
+  "scripts": {
+    "start:dev": "dotenv -e ./.env/.development -- nodemon --exec ts-node src/index.ts",
+    "start:prod": "dotenv -e ./.env/.production -- node dist/index.js",
+    "build": "tsc",
+    "commit": "cd .. && npm run commit",
+    "check-packages": "npx depcheck",
+    "check-type": "tsc --noEmit",
+    "check-eslint": "eslint . --cache --cache-location=./.cache/.eslintcache",
+    "check-prettier": "prettier . --check",
+    "check-all": "yarn check-eslint && yarn check-prettier",
+    "prettier": "prettier . --write --cache --cache-location=./.cache/.prettiercache",
+    "eslint": "prettier --write .",
+    "format-all": "npm run eslint && npm run prettier"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.11.0",
+    "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2",
+    "express": "^4.21.1",
+    "graphql": "^16.9.0",
+    "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/express": "^5.0.0",
+    "globals": "^15.11.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.11.0"
+  }
+}

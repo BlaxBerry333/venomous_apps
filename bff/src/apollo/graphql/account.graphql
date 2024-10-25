@@ -1,0 +1,12 @@
+type Account {
+  id: Int!
+  name: String!
+  email: String!
+  role: AccountRole
+}
+
+enum AccountRole {
+  ADMIN
+  COMMON
+  VISITOR
+}

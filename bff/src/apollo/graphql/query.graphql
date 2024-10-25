@@ -1,0 +1,7 @@
+#import "./account.graphql"
+
+type Query {
+  hello: String
+  accounts: [Account]
+  account(id: Int, email: String): Account
+}

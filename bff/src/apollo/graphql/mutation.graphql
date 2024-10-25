@@ -1,0 +1,12 @@
+#import "./account.graphql"
+
+input AccountInput {
+  name: String!
+  email: String!
+}
+
+type Mutation {
+  createAccount(input: AccountInput!): Account
+  updateAccount(id: Int!, input: AccountInput): Account
+  deleteAccount(id: Int!): Account
+}
