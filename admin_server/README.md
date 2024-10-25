@@ -31,9 +31,7 @@ root@[container_id]:/app# exit
 % cd ./admin_server
 % make setup_venv                                # python -m venv .venv
 % source .venv/bin/activate
-(.venv) % make install
-# change ./configs/settings.py DATABASE['default']["HOST"] from "admin_server_db" to "localhost"
-(.venv) % make start
+(.venv) % make install && make start
 (.venv) % deactivate
 % cd ..
 % make restart SERVICE_NAME=admin_server         # docker-compose -f ./docker-compose.dev.yml -p venomous_apps restart admin_server
