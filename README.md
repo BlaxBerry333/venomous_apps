@@ -2,14 +2,16 @@
 
 ## 🔗 Related Links
 
-|            App Name             | Topics                                                        |      Description       |
-| :-----------------------------: | ------------------------------------------------------------- | :--------------------: |
-| [Admin Client](./admin_client/) | [Vite]()、[React]()、[TypeScript]()<br/>[Docker]()            |          SPA           |
-| [Admin Server](./admin_server/) | [Django]()、[Python]()、[DRF]()<br/>[Docker]()                |        REST API        |
-|         Admin Server DB         | [PostgreSQL]()<br/>[Docker]()                                 |           DB           |
-|          [BFF](./bff/)          | [Node.js]()、[Express.js]()<br/>[GraphQL]()<br/>[Docker]()    | REST API + Graphql API |
-|    [Notes App](./notes_app/)    | [Nuxt.js]()<br/>[MongoDB]()、[MongoDB Atlas]()<br/>[Docker]() |     SSR + REST API     |
-|     [Chat API](./chat_api/)     | [Gin]()、[Golang]()<br/>[Docker]()                            |       WebSocket        |
+|                   App Name                   |                                                                                                                |         Topic          |  Port   |
+| :------------------------------------------: | -------------------------------------------------------------------------------------------------------------- | :--------------------: | :-----: |
+|       [Admin Client](./admin_client/)        | [![My Skills](https://skillicons.dev/icons?i=docker,vite,react,apollo&perline=4)](https://skillicons.dev)      |          SPA           | `3000`  |
+| [Admin Server](./admin_server/) ( Scenario ) | [![My Skills](https://skillicons.dev/icons?i=docker,django&perline=4)](https://skillicons.dev)                 |        REST API        | `8080`  |
+|               Admin Server DB                | [![My Skills](https://skillicons.dev/icons?i=docker,postgresql&perline=4)](https://skillicons.dev)             |           DB           | `5432`  |
+|                [BFF](./bff/)                 | [![My Skills](https://skillicons.dev/icons?i=docker,nodejs,express,graphql&perline=4)](https://skillicons.dev) | REST API + Graphql API | `9000`  |
+|          [Notes App](./notes_app/)           | [![My Skills](https://skillicons.dev/icons?i=docker,nuxt,vuetify&perline=4)](https://skillicons.dev)           |     SSR + REST API     | `3600`  |
+|                 Notes App DB                 | [![My Skills](https://skillicons.dev/icons?i=docker,mongodb&perline=4)](https://skillicons.dev)                |           DB           | `27017` |
+|           [Chat API](./chat_api/)            | [![My Skills](https://skillicons.dev/icons?i=docker,go,&perline=4)](https://skillicons.dev)                    |       WebSocket        | `3700`  |
+|         [Report API](./report_api/)          | [![My Skills](https://skillicons.dev/icons?i=docker,rails,firebase&perline=4)](https://skillicons.dev)         |        REST API        | `3800`  |
 
 ## 🚀 Local Setup
 
@@ -63,6 +65,10 @@ venomous_apps/
 │   └── ...
 │
 ├── chat_api/                   # Chat API
+│   ├── Dockerfile.dev
+│   └── ...
+│
+├── report_api/                 # Report API
 │   ├── Dockerfile.dev
 │   └── ...
 │
