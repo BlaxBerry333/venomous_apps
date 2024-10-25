@@ -1,0 +1,12 @@
+{
+  "ignores": [
+    "~",
+    "nitropack",
+    "vue-router",
+    "@typescript-eslint/eslint-plugin",
+    "@typescript-eslint/parser",
+    "@vue/eslint-config-prettier",
+    "@vue/eslint-config-typescript",
+    "eslint-plugin-prettier"
+  ]
+}

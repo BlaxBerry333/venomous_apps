@@ -75,10 +75,12 @@ services:
       - "3600:3600"
     depends_on:
       - notes_app_db
+    networks:
+      - venomous_app_network
 
   # Notes App Database ( MongoDB )
   notes_app_db:
-    image: mongo:latest
+    image: mongo
     container_name: notes_app_db
     ports:
       - "27017:27017"
@@ -87,6 +89,13 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: rootpass
     volumes:
       - notes_app_db:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - venomous_app_network
 
   # Redis
   redis:
