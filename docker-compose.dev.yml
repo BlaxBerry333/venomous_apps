@@ -20,12 +20,10 @@ services:
     build:
       context: ./admin_server
       dockerfile: Dockerfile.dev
+    environment:
+      - CUSTOM_DB_HOST=admin_server_db
     command: sh -c "
       python manage.py migrate &&
-      export DJANGO_SUPERUSER_USERNAME=admin &&
-      export DJANGO_SUPERUSER_EMAIL=admin@example.com &&
-      export DJANGO_SUPERUSER_PASSWORD=admin &&
-      python manage.py createsuperuser --noinput &&
       python manage.py runserver 0.0.0.0:8080
       "
     ports:
