@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { useTheme } from "vuetify";
+// ------------------------------------------------------------------------------------------
 
-const theme = useTheme();
-
-function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? "light" : "dark";
-}
+const { isDarkModeTheme, toggleTheme } = useThemes();
 
 // ------------------------------------------------------------------------------------------
 
-const links = ["list", "create"];
+const { t, currentLang, selectableLangs, changeLang } = useTranslation();
+
+const navigation = computed<Array<{ label: string; value: string }>>(() => [
+  { label: t("nav.home"), value: "/" },
+  { label: t("nav.list"), value: "/list" },
+]);
 </script>
 
 <template>
@@ -17,7 +18,7 @@ const links = ["list", "create"];
     <v-container class="mx-auto d-flex align-center justify-center">
       <v-row class="d-flex align-center">
         <!-- logo -->
-        <v-col cols="2" class="d-flex align-center">
+        <v-col cols="2" class="d-flex align-center py-0 px-2">
           <div>
             <v-img
               :width="50"
@@ -25,17 +26,25 @@ const links = ["list", "create"];
               cover
               aspect-ratio="16/9"
               src="~/assets/images/logo.webp"
-            ></v-img>
+            />
           </div>
         </v-col>
 
-        <v-col class="d-flex align-center">
+        <v-col class="d-flex align-center py-0 px-0">
           <!-- actions -->
-          <NuxtLink v-for="link in links" :key="link" :to="`/${link}`">
-            <v-btn :text="link" variant="text" class="d-none d-lg-flex">
-              {{ link }}
-            </v-btn>
-          </NuxtLink>
+          <nav class="d-flex align-center">
+            <NuxtLink v-for="nav in navigation" :key="nav.value" :to="nav.value">
+              <v-btn
+                stacked
+                :text="nav.label"
+                :aria-label="nav.label"
+                variant="text"
+                class="d-none d-lg-flex"
+              >
+                {{ nav.label }}
+              </v-btn>
+            </NuxtLink>
+          </nav>
 
           <v-spacer></v-spacer>
 
@@ -49,20 +58,44 @@ const links = ["list", "create"];
               flat
               hide-details
               single-line
-            ></v-text-field>
+              class="mr-4"
+            />
           </v-responsive>
 
-          <!-- theme mode -->
-          <v-btn
-            :icon="
-              theme.global.current.value.dark
-                ? 'mdi-weather-sunny'
-                : 'mdi-weather-night'
-            "
-            @click="toggleTheme"
-            class="mx-4"
-          >
-          </v-btn>
+          <div>
+            <!-- theme mode toggle -->
+            <v-btn
+              :icon="isDarkModeTheme ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+              @click="toggleTheme"
+              aria-label="theme-mode-toggle"
+              variant="tonal"
+              size="x-small"
+              class="mr-4"
+            />
+
+            <!-- language toggle -->
+            <v-speed-dial location="bottom center" transition="fade-transition">
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-avatar
+                  v-bind="activatorProps"
+                  :image="`upload/flags/${getCountryFromLangCode(currentLang)}-32*32.svg`"
+                  size="small"
+                  variant="flat"
+                  class="mr-4"
+                  style="cursor: pointer"
+                />
+              </template>
+              <v-avatar
+                v-for="lang in selectableLangs"
+                :key="lang.code"
+                :image="`upload/flags/${getCountryFromLangCode(lang.code)}-32*32.svg`"
+                @click="changeLang(lang.code)"
+                size="small"
+                variant="flat"
+                style="cursor: pointer"
+              />
+            </v-speed-dial>
+          </div>
 
           <!-- account avatar -->
           <v-avatar color="grey-darken-1" size="32"></v-avatar>

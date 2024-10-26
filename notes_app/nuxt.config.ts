@@ -42,6 +42,7 @@ export default defineNuxtConfig({
         config.plugins!.push(vuetify({ autoImport: true }));
       });
     },
+    "@nuxtjs/i18n",
   ],
 
   vite: {
@@ -50,5 +51,17 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
+  },
+
+  i18n: {
+    lazy: true,
+    strategy: "no_prefix",
+    defaultLocale: "ja",
+    langDir: "locales/",
+    locales: [
+      { code: "en", iso: "en-US", name: "English", file: "en.json" },
+      { code: "ja", iso: "ja_JP", name: "日本語", file: "ja.json" },
+      { code: "zh", iso: "zh-CN", name: "简体中文", file: "zh.json" },
+    ],
   },
 });
