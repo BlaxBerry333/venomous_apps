@@ -25,16 +25,19 @@ root@[container_id]:/app# exit
 
 ## 📚 Tech Stacks
 
-- [Nuxt]() v3.13.2
-- [Vue]() v3.5.10
-- [Vuetify]() v3.7.3
-- [MongoDB]() ( [Mongoose]() v8.7.2 )
+- main
+  - [Nuxt]() v3.13.2
+  - [Vue]() v3.5.10
+  - [MongoDB]() ( [Mongoose]() v8.7.2 )
+- others
+  - [Vuetify]() v3.7.3
+  - [@nuxtjs/i18n]()
 
 ## 🛠 Commands
 
 ```shell
 # run server
-npm run start:[mode]
+npm run start:[mode] [--force]
 
 # build
 npm run build:[mode]
@@ -67,9 +70,6 @@ venomous_apps/
     │   ├── images/
     │   └── ...
     │
-    ├── plugins/
-    │   └── ...
-    │
     ├── components/
     │   ├── common/
     │   ├── custom/
@@ -93,10 +93,15 @@ venomous_apps/
     │   ├── tsconfig.json
     │   └── ...
     │
-    ├── utils/
+    ├── plugins/
     │   └── ...
     │
-    ├── app.vue
+    ├── locals/
+    │   ├── [i18n_lang_code].json
+    │   └── ...
+    │
+    ├── utils/
+    │   └── ...
     │
     ├── Dockerfile.dev
     │

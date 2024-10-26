@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import LayoutHeader from "~/components/common/layout-header.vue";
-import LayoutSideMenu from "~/components/common/layout-sidemenu.vue";
+// import LayoutSideMenu from "~/components/common/layout-sidemenu.vue";
 
 // const isOpenSlideMenu = ref<boolean>(false);
 // const openSlideMenu = () => (isOpenSlideMenu.value = !isOpenSlideMenu.value);
@@ -10,33 +10,33 @@ import LayoutSideMenu from "~/components/common/layout-sidemenu.vue";
 
 <template>
   <v-app>
+    <NuxtRouteAnnouncer />
+
     <!-- header -->
     <LayoutHeader />
 
-    <v-main>
+    <!-- main -->
+    <v-main class="pt-0">
       <v-container>
-        <v-row>
-          <!-- side menu -->
-          <v-col cols="2" class="d-none d-lg-block">
-            <v-sheet rounded="lg">
-              <LayoutSideMenu />
-            </v-sheet>
-          </v-col>
-
-          <!-- main content -->
-          <v-col>
-            <v-sheet rounded="lg" class="pt-2 px-4" min-height="80vh">
-              <slot />
-            </v-sheet>
-          </v-col>
-        </v-row>
+        <!-- each page content -->
+        <slot />
       </v-container>
     </v-main>
   </v-app>
 </template>
 
 <style>
-/* body {
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.2s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+
+body {
   min-width: 390px;
-} */
+}
 </style>

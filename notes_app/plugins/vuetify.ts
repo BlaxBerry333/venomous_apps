@@ -7,6 +7,7 @@ import colors from "vuetify/util/colors";
 export default defineNuxtPlugin((app) => {
   const vuetify = createVuetify({
     theme: {
+      defaultTheme: "dark",
       themes: {
         light: {
           colors: {

@@ -1,12 +1,6 @@
 import { model } from "mongoose";
+
+import { NoteDataType } from "~/utils/types";
 import { NoteSchema } from "../schemas";
 
-export type NoteType = {
-  _id: string;
-  title: string;
-  type: string;
-  created_at: Date;
-  updated_at: Date;
-};
-
-export const NoteModel = model<NoteType>("Note", NoteSchema);
+export const NoteModel = model<NoteDataType>("Note", NoteSchema);

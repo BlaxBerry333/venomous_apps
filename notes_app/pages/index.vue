@@ -5,8 +5,12 @@ useHead({
   title: `${config.public.appInfo.name} | Home`,
   meta: [{ name: "description", content: `${config.public.appInfo.name} Home Page` }],
 });
+
+// ------------------------------------------------------------------------------------------
+
+const { t } = useTranslation();
 </script>
 
 <template>
-  <div>Home</div>
+  <div>{{ t("nav.home") }}</div>
 </template>

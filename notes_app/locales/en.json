@@ -1,6 +1,12 @@
 {
   "nav": {
     "home": "Home",
-    "list": "List"
+    "list": "Note List",
+    "create": "Create Note"
+  },
+  "buttons": {
+    "refresh": "Refresh",
+    "search": "Search",
+    "cancel": "Cancel"
   }
 }

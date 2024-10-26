@@ -1,14 +1,17 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// ------------------------------------------------------------------------------------------
+
+const { t } = useTranslation();
+</script>
 
 <template>
-  <div>
-    Create
-
-    <v-btn class="text-none text-subtitle-1" color="primary" variant="flat">
-      Primary
-    </v-btn>
-    <v-btn class="text-none text-subtitle-1" color="secondary" variant="flat">
-      Secondary
-    </v-btn>
-  </div>
+  <v-sheet id="pages-create">
+    <section class="d-flex align-center justify-space-between">
+      <!-- page title -->
+      <h3 class="text-h5 font-weight-bold">
+        {{ t("nav.create") }}
+      </h3>
+      <!-- placeholder -->
+    </section>
+  </v-sheet>
 </template>

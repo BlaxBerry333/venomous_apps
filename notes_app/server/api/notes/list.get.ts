@@ -1,4 +1,5 @@
-import { NoteModel, type NoteType } from "~/server/models";
+import { NoteModel } from "~/server/models";
+import { NoteDataType } from "~/utils/types";
 
 export type QueriesType = {
   type: ""; // 笔记类型
@@ -15,7 +16,7 @@ export type ReturnType = {
     totalCount: number;
     totalPages: number;
     currentPage: number;
-    notes: Array<NoteType>;
+    notes: Array<NoteDataType>;
   };
 };
 
@@ -31,8 +32,12 @@ export default defineEventHandler(async (event) => {
   try {
     const searchQueries = getQuery(event) as QueriesType;
 
+    // ------------------------------------------------------------------------------------------
+
     const orderField = searchQueries?.sort || "created_at";
     const sortOption = searchQueries?.order_by === "asc" ? 1 : -1;
+
+    // ------------------------------------------------------------------------------------------
 
     const page = searchQueries?.page || 1;
     const count = searchQueries?.count || 10;
@@ -40,7 +45,16 @@ export default defineEventHandler(async (event) => {
 
     const totalCount = await NoteModel.countDocuments();
 
-    const notes = await NoteModel.find()
+    // ------------------------------------------------------------------------------------------
+
+    const filterFields: Partial<NoteDataType> = {};
+
+    const typeField = searchQueries.type;
+    if (typeField) filterFields.type = typeField;
+
+    // ------------------------------------------------------------------------------------------
+
+    const notes = await NoteModel.find(filterFields)
       .sort({ [orderField]: sortOption })
       .skip(paginationSkip)
       .limit(count);

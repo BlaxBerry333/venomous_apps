@@ -11,7 +11,8 @@ export default function () {
 
   const storedLang = useCookie<string>("language");
 
-  function changeI18nLang(lang: string): void {
+  async function changeI18nLang(lang: string): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 250));
     storedLang.value = lang;
     i18n.setLocale(lang);
     i18n.setLocaleCookie(lang);
@@ -24,6 +25,8 @@ export default function () {
       i18n.locale.value = storedLang.value;
     }
   });
+
+  // ------------------------------------------------------------------------------------------
 
   return {
     t: i18n.t,

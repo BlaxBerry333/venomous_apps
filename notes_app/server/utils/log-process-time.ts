@@ -3,6 +3,7 @@ type ParamsType = {
   processName: string;
   successMessage?: string;
   errorMessage?: string;
+  hiddenSuccessMessage?: boolean;
 };
 
 export default async function logProcessTime({
@@ -10,7 +11,8 @@ export default async function logProcessTime({
   processName,
   successMessage,
   errorMessage,
-}: ParamsType) {
+  hiddenSuccessMessage = false,
+}: ParamsType): Promise<number> {
   const start = process.hrtime();
 
   try {
@@ -19,8 +21,12 @@ export default async function logProcessTime({
     const [seconds, nanoseconds] = process.hrtime(start);
     const durationMs = (seconds * 1000 + nanoseconds / 1e6).toFixed(0);
 
-    console.log(`✨[${processName}] succeeded in ${durationMs}ms`);
-    if (successMessage) console.log(`✨${successMessage}`);
+    if (!hiddenSuccessMessage) {
+      console.log(`✨[${processName}] succeeded in ${durationMs}ms`);
+      if (successMessage) console.log(`✨${successMessage}`);
+    }
+
+    return parseFloat(durationMs);
   } catch (error) {
     const [seconds, nanoseconds] = process.hrtime(start);
     const durationMs = (seconds * 1000 + nanoseconds / 1e6).toFixed(0);

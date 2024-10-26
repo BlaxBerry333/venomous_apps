@@ -1,12 +1,13 @@
-import { NoteModel, type NoteType } from "~/server/models";
+import { NoteModel } from "~/server/models";
+import { NoteDataType } from "~/utils/types";
 
-export type RequestBodyType = NoteType;
+export type RequestBodyType = NoteDataType;
 
 export type ReturnType = {
   code: number;
   error: null | string;
   data: null | {
-    note: NoteType;
+    note: NoteDataType;
     message: string;
   };
 };

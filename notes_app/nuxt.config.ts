@@ -34,6 +34,12 @@ export default defineNuxtConfig({
 
   nitro: {
     plugins: ["~/server/index.ts"],
+
+    routeRules: {
+      "/server/**": {
+        // proxy: "",
+      },
+    },
   },
 
   modules: [

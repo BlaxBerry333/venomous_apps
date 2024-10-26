@@ -1,6 +1,12 @@
 {
   "nav": {
     "home": "首页",
-    "list": "列表"
+    "list": "笔记列表",
+    "create": "新建笔记"
+  },
+  "buttons": {
+    "refresh": "刷新",
+    "search": "查找",
+    "cancel": "取消"
   }
 }

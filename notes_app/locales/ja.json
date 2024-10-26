@@ -1,6 +1,12 @@
 {
   "nav": {
     "home": "ホーム",
-    "list": "一覧"
+    "list": "ノート一覧",
+    "create": "新規作成"
+  },
+  "buttons": {
+    "refresh": "更新",
+    "search": "検索",
+    "cancel": "キャンセル"
   }
 }
