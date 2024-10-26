@@ -71,6 +71,8 @@ services:
     build:
       context: ./notes_app
       dockerfile: Dockerfile.dev
+    environment:
+      - DB_MONGODB_URI=mongodb://root:rootpass@notes_app_db:27017/
     ports:
       - "3600:3600"
     depends_on:
