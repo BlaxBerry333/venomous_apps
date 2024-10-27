@@ -7,11 +7,11 @@ const { t } = useTranslation();
 </script>
 
 <template>
-  <v-sheet id="pages-create">
+  <v-sheet id="pages-account-details">
     <section class="d-flex align-center justify-space-between">
       <!-- page title -->
       <h3 class="text-h5 font-weight-bold">
-        {{ t("nav.create") }}
+        {{ t("nav.account-details") }}
       </h3>
       <!-- placeholder -->
     </section>

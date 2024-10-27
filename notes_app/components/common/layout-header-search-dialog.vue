@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import useTranslation from "~/composables/use-translation";
+
 // ------------------------------------------------------------------------------------------
 
 const { t } = useTranslation();
@@ -19,11 +21,17 @@ const MOCK_SEARCH_RESULT = [
 
 // ------------------------------------------------------------------------------------------
 
+const isSearching = ref<boolean>(false);
+
 const searchResult = ref<Array<(typeof MOCK_SEARCH_RESULT)[number]>>([]);
 
 async function handleSearch(value: string) {
   console.log(value);
+
+  isSearching.value = true;
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   searchResult.value = MOCK_SEARCH_RESULT;
+  isSearching.value = false;
 }
 
 async function handleClickSpecificResult(id: string | number) {
@@ -49,30 +57,28 @@ async function handleDeleteSpecificResult(id: string | number) {
       />
     </template>
 
-    <template v-slot:default="{ isActive }">
-      <v-card>
+    <template v-slot:default>
+      <v-card class="rounded-lg">
         <!-- search field -->
         <v-text-field
           clearable
           :placeholder="`${t('buttons.search')}...`"
           prepend-inner-icon="mdi-magnify"
+          color="primary"
           @keyup.enter="handleSearch($event.target.value)"
         >
           <template v-slot:loader>
-            <v-progress-linear :active="true" indeterminate color="primary" />
+            <v-progress-linear :active="isSearching" indeterminate color="primary" />
           </template>
         </v-text-field>
 
         <!-- result list -->
-
         <v-virtual-scroll :height="400" :items="searchResult">
           <template v-slot:default="{ item }">
             <v-list-item
               :key="item.id"
               :title="`Item-${item.text}`"
-              :height="60"
-              variant="plain"
-              class="cursor-pointer"
+              class="py-2 mb-2 mx-2 rounded-lg cursor-pointer"
               @click.stop="handleClickSpecificResult(item.id)"
             >
               <template v-slot:append>
@@ -87,22 +93,7 @@ async function handleDeleteSpecificResult(id: string | number) {
           </template>
         </v-virtual-scroll>
 
-        <!-- actions -->
         <v-divider class="mt-2" />
-        <v-card-actions>
-          <v-btn
-            :text="t('buttons.cancel')"
-            @click="isActive.value = false"
-            variant="outlined"
-            color="primary"
-          />
-          <v-btn
-            :text="t('buttons.search')"
-            @click="isActive.value = false"
-            variant="flat"
-            color="primary"
-          />
-        </v-card-actions>
       </v-card>
     </template>
   </v-dialog>

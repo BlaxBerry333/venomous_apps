@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { SelectableNoteType, type NoteDataType } from "~/utils/types";
 import type { ReturnType } from "~/server/api/notes/list.get";
+import useTranslation from "~/composables/use-translation";
+import { SelectableNoteType, type NoteDataType } from "~/utils/types";
+
+import CustomDataRefreshButton from "~/components/custom/buttons/data-refresh-button.vue";
 
 // ------------------------------------------------------------------------------------------
 
@@ -17,9 +20,11 @@ const { data, status, refresh } = useAsyncData<ReturnType>(
   () => $fetch(`/api/notes/list?type=${selectedNoteType.value}`),
 );
 
-const noteList = computed<Array<NoteDataType>>(() => data.value?.data?.notes || []);
+// ------------------------------------------------------------------------------------------
 
 const errorMessage = computed<ReturnType["error"]>(() => data.value?.error || null);
+
+const noteList = computed<Array<NoteDataType>>(() => data.value?.data?.notes || []);
 
 const isError = computed<boolean>(() => data.value?.error !== null);
 
@@ -28,6 +33,15 @@ const isLoading = computed<boolean>(
 );
 
 const isEmptyData = computed<boolean>(() => !noteList.value.length);
+
+const isRefreshLoading = ref<boolean>(false);
+
+async function handleDataRefresh(): Promise<void> {
+  isRefreshLoading.value = true;
+  await refresh();
+  await new Promise((resolve) => setTimeout(resolve, 250));
+  isRefreshLoading.value = false;
+}
 </script>
 
 <template>
@@ -38,13 +52,9 @@ const isEmptyData = computed<boolean>(() => !noteList.value.length);
         {{ t("nav.list") }}
       </h3>
       <!-- data refresh button -->
-      <v-btn
-        :text="t('buttons.refresh')"
-        @click="refresh"
-        color="primary"
-        class="text-none text-subtitle-1"
-        aria-label="refresh"
-        style="width: 100px"
+      <CustomDataRefreshButton
+        :is-refresh-loading="isRefreshLoading"
+        :on-refresh="handleDataRefresh"
       />
     </section>
 
@@ -80,7 +90,7 @@ const isEmptyData = computed<boolean>(() => !noteList.value.length);
             :text="'...'"
             width="100%"
             class="py-4"
-            color="cyan-lighten-4"
+            color="teal-lighten-4"
             hover
           />
         </v-skeleton-loader>

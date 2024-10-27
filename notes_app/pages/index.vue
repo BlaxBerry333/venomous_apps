@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import useTranslation from "~/composables/use-translation";
+
+// ------------------------------------------------------------------------------------------
+
 const config = useRuntimeConfig();
 
 useHead({

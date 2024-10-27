@@ -2,11 +2,29 @@
   "nav": {
     "home": "ホーム",
     "list": "ノート一覧",
-    "create": "新規作成"
+    "create": "新規作成",
+    "account-details": "アカウント情報"
   },
+
   "buttons": {
     "refresh": "更新",
     "search": "検索",
-    "cancel": "キャンセル"
+    "cancel": "キャンセル",
+    "logout": "ログアウト",
+    "login": "ログイン",
+    "signup": "アカウント登録"
+  },
+
+  "form": {
+    "labels": {
+      "email-address": "メールアドレス",
+      "password": "パスワード"
+    }
+  },
+
+  "messages": {
+    "status-loading": "読み込み中...",
+    "confirm-logout": "ログアウトしますか？",
+    "confirm-logout-2": "再度ログインするまでアカウントにアクセスできなくなります。"
   }
 }

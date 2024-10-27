@@ -11,6 +11,8 @@ export default function () {
     vuetifyTheme.global.name.value = isDarkModeTheme.value ? "light" : "dark";
   }
 
+  // ------------------------------------------------------------------------------------------
+
   return {
     isDarkModeTheme,
     toggleTheme,

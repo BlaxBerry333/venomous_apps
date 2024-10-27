@@ -2,11 +2,29 @@
   "nav": {
     "home": "Home",
     "list": "Note List",
-    "create": "Create Note"
+    "create": "Create Note",
+    "account-details": "Account Details"
   },
+
   "buttons": {
     "refresh": "Refresh",
     "search": "Search",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "logout": "Logout",
+    "login": "Login",
+    "signup": "SignUp"
+  },
+
+  "form": {
+    "labels": {
+      "email-address": "Email Address",
+      "password": "Password"
+    }
+  },
+
+  "messages": {
+    "status-loading": "Loading...",
+    "confirm-logout": "Are you sure you want to log out?",
+    "confirm-logout-2": "After logging out you will not be able to access your account until you log in again."
   }
 }

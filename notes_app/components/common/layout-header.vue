@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import LayoutHeaderSearch from "~/components/common/layout-header-search.vue";
+import useRoutes from "~/composables/use-routes";
+import useTranslation from "~/composables/use-translation";
+
+import LayoutHeaderSearchDialog from "~/components/common/layout-header-search-dialog.vue";
+import LayoutHeaderLanguageMenu from "~/components/common/layout-header-language-menu.vue";
+import LayoutHeaderAccountMenu from "~/components/common/layout-header-account-menu.vue";
+import LayoutHeaderAccountDialog from "~/components/common/layout-header-account-dialog.vue";
 
 // ------------------------------------------------------------------------------------------
 
@@ -7,27 +13,20 @@ const { isDarkModeTheme, toggleTheme } = useThemes();
 
 // ------------------------------------------------------------------------------------------
 
-const { t, currentLang, selectableLangs, changeLang } = useTranslation();
+const { t } = useTranslation();
 
 // ------------------------------------------------------------------------------------------
 
-const { path } = useRoute();
-
-const { push } = useRouter();
-
-const pathname = ref<string>(path);
+const { navigateTo, checkIsCurrentPathname } = useRoutes();
 
 const navigation = computed<Array<{ label: string; value: string }>>(() => [
   { label: t("nav.list"), value: "/list" },
   { label: t("nav.create"), value: "/create" },
 ]);
 
-function navigateTo(path: string) {
-  if (pathname.value !== path) {
-    push(path);
-    pathname.value = path;
-  }
-}
+// ------------------------------------------------------------------------------------------
+
+const { isAuthenticated } = useAccount();
 </script>
 
 <template>
@@ -63,7 +62,7 @@ function navigateTo(path: string) {
               v-for="nav in navigation"
               :key="nav.value"
               :aria-label="nav.label"
-              :color="pathname === nav.value ? 'primary' : 'default'"
+              :color="checkIsCurrentPathname(nav.value) ? 'primary' : 'default'"
               @click="navigateTo(nav.value)"
               stacked
               variant="text"
@@ -78,46 +77,26 @@ function navigateTo(path: string) {
           <!-- actions buttons -->
           <div class="d-flex align-center">
             <!-- search  -->
-            <LayoutHeaderSearch />
-            <!-- language toggle -->
-            <v-speed-dial location="bottom center" transition="fade-transition">
-              <template v-slot:activator="{ props: activatorProps }">
-                <v-img
-                  v-bind="activatorProps"
-                  :width="32"
-                  :height="32"
-                  :src="`upload/flags/${getCountryFromLangCode(currentLang)}-32*32.svg`"
-                  :lazy-src="`upload/flags/${getCountryFromLangCode(currentLang)}-32*32.svg`"
-                  cover
-                  class="mr-2 mr-lg-4 rounded-xl cursor-pointer"
-                  aspect-ratio="16/9"
-                  draggable="false"
-                />
-              </template>
-              <v-avatar
-                v-for="lang in selectableLangs"
-                :key="lang.code"
-                :image="`upload/flags/${getCountryFromLangCode(lang.code)}-32*32.svg`"
-                @click="changeLang(lang.code)"
-                size="small"
-                variant="flat"
-                class="cursor-pointer"
-                hidden
-              />
-            </v-speed-dial>
-          </div>
-          <!-- theme mode toggle -->
-          <v-btn
-            :icon="isDarkModeTheme ? 'mdi-weather-sunny' : 'mdi-weather-night'"
-            @click="toggleTheme"
-            aria-label="theme-mode-toggle"
-            variant="tonal"
-            size="x-small"
-            class="mr-2 mr-lg-4"
-          />
+            <LayoutHeaderSearchDialog />
 
-          <!-- account avatar -->
-          <v-avatar color="grey-darken-1" size="32"></v-avatar>
+            <!-- language toggle -->
+            <LayoutHeaderLanguageMenu />
+
+            <!-- theme mode toggle -->
+            <v-btn
+              :icon="isDarkModeTheme ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+              @click="toggleTheme"
+              aria-label="theme-mode-toggle"
+              variant="tonal"
+              size="x-small"
+              color="primary"
+              class="mr-2 mr-lg-4"
+            />
+          </div>
+
+          <!-- account -->
+          <LayoutHeaderAccountMenu v-if="isAuthenticated" />
+          <LayoutHeaderAccountDialog v-else />
         </v-col>
       </v-row>
     </v-container>

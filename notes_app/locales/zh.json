@@ -2,11 +2,29 @@
   "nav": {
     "home": "首页",
     "list": "笔记列表",
-    "create": "新建笔记"
+    "create": "新建笔记",
+    "account-details": "账号详情"
   },
+
   "buttons": {
     "refresh": "刷新",
     "search": "查找",
-    "cancel": "取消"
+    "cancel": "取消",
+    "logout": "退出登陆",
+    "login": "用户登陆",
+    "signup": "用户注册"
+  },
+
+  "form": {
+    "labels": {
+      "email-address": "登陆邮箱",
+      "password": "登陆密码"
+    }
+  },
+
+  "messages": {
+    "status-loading": "加载中...",
+    "confirm-logout": "确定要注销吗？",
+    "confirm-logout-2": "注销后将无法访问您的帐户，直到再次登录"
   }
 }
