@@ -2,6 +2,7 @@
   "ignores": [
     "prettier-plugin-organize-imports",
     "stylelint-config-standard",
-    "stylelint-config-standard-scss"
+    "stylelint-config-standard-scss",
+    "~"
   ]
 }

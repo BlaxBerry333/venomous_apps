@@ -5,6 +5,8 @@ export const ADMIN_CLIENT_CONFIGS = {
     version: packageJson.version,
     description: packageJson.description,
     author: packageJson.author,
+    envName: import.meta.env.VITE_ADMIN_CLIENT_ENV_NAME,
+    port: import.meta.env.VITE_ADMIN_CLIENT_PORT,
   },
 
   domain: {

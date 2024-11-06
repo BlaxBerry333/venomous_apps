@@ -28,3 +28,6 @@ dist-ssr
 .eslintcache
 .prettiercache
 .stylelintcache
+
+# Ignore rollup build stats directory
+.build_stats/
