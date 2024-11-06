@@ -27,7 +27,7 @@ export default function useCustomLayoutNavigation() {
       {
         icon: <Icon icon="solar:routing-3-bold-duotone" />,
         name: "Workflow",
-        path: ROUTE_PATHS.dashboard.flow.list,
+        path: ROUTE_PATHS.dashboard.workflow.playground,
       },
       {
         icon: <Icon icon="solar:pie-chart-2-bold-duotone" />,

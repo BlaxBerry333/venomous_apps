@@ -7,12 +7,12 @@ import { CustomLoadingScreen } from "~/common/components/custom/loadings";
 import { DashboardLayout } from "~/common/components/layouts";
 import { ROUTE_PATHS, ROUTE_SEGMENTS } from "../path";
 
-const DashboardAccountsListPage = lazy(() => import("~/pages/dashboard/accounts/list/page"));
-const DashboardAccountsDetailPage = lazy(() => import("~/pages/dashboard/accounts/[id]/page"));
-const DashboardFlowListPage = lazy(() => import("~/pages/dashboard/flow/list/page"));
-const DashboardFlowDetailPage = lazy(() => import("~/pages/dashboard/flow/detail/page"));
-const DashboardReportListPage = lazy(() => import("~/pages/dashboard/report/list/page"));
-const DashboardReportDetailPage = lazy(() => import("~/pages/dashboard/report/[id]/page"));
+const AccountsListPage = lazy(() => import("~/pages/dashboard/accounts/list/page"));
+const AccountsDetailPage = lazy(() => import("~/pages/dashboard/accounts/[id]/page"));
+const WorkflowListPage = lazy(() => import("~/pages/dashboard/workflow/list/page"));
+const WorkflowPlaygroundPage = lazy(() => import("~/pages/dashboard/workflow/playground/page"));
+const ReportListPage = lazy(() => import("~/pages/dashboard/report/list/page"));
+const ReportDetailPage = lazy(() => import("~/pages/dashboard/report/[id]/page"));
 
 const DashboardRoutes: RouteObject[] = [
   {
@@ -26,26 +26,26 @@ const DashboardRoutes: RouteObject[] = [
     ),
     children: [
       {
-        element: <Navigate to={ROUTE_PATHS.dashboard.flow.root} replace />,
+        element: <Navigate to={ROUTE_PATHS.dashboard.workflow.root} replace />,
         index: true,
       },
 
       // Accounts
       // ----------------------------------------------------------------------------------------------------
       {
-        path: ROUTE_SEGMENTS.dashboard_accounts,
+        path: ROUTE_SEGMENTS.accounts,
         children: [
           {
             element: <Navigate to={ROUTE_PATHS.dashboard.accounts.list} replace />,
             index: true,
           },
           {
-            path: "list",
-            element: <DashboardAccountsListPage />,
+            path: ROUTE_SEGMENTS.list,
+            element: <AccountsListPage />,
           },
           {
-            path: ":id",
-            element: <DashboardAccountsDetailPage />,
+            path: ROUTE_SEGMENTS.specific_id,
+            element: <AccountsDetailPage />,
           },
           {
             path: "*",
@@ -54,26 +54,26 @@ const DashboardRoutes: RouteObject[] = [
         ],
       },
 
-      // Flow
+      // WorkFlow
       // ----------------------------------------------------------------------------------------------------
       {
-        path: ROUTE_SEGMENTS.dashboard_flow,
+        path: ROUTE_SEGMENTS.workflow,
         children: [
           {
-            element: <Navigate to={ROUTE_PATHS.dashboard.flow.list} replace />,
+            element: <Navigate to={ROUTE_PATHS.dashboard.workflow.list} replace />,
             index: true,
           },
           {
-            path: "list",
-            element: <DashboardFlowListPage />,
+            path: ROUTE_SEGMENTS.list,
+            element: <WorkflowListPage />,
           },
           {
-            path: "detail",
-            element: <DashboardFlowDetailPage />,
+            path: ROUTE_SEGMENTS.playground,
+            element: <WorkflowPlaygroundPage />,
           },
           {
             path: "*",
-            element: <Navigate to={ROUTE_PATHS.dashboard.flow.list} replace />,
+            element: <Navigate to={ROUTE_PATHS.dashboard.workflow.list} replace />,
           },
         ],
       },
@@ -81,19 +81,19 @@ const DashboardRoutes: RouteObject[] = [
       // Report
       // ----------------------------------------------------------------------------------------------------
       {
-        path: ROUTE_SEGMENTS.dashboard_report,
+        path: ROUTE_SEGMENTS.report,
         children: [
           {
             element: <Navigate to={ROUTE_PATHS.dashboard.report.list} replace />,
             index: true,
           },
           {
-            path: "list",
-            element: <DashboardReportListPage />,
+            path: ROUTE_SEGMENTS.list,
+            element: <ReportListPage />,
           },
           {
-            path: ":id",
-            element: <DashboardReportDetailPage />,
+            path: ROUTE_SEGMENTS.specific_id,
+            element: <ReportDetailPage />,
           },
           {
             path: "*",

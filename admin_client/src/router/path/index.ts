@@ -1,12 +1,17 @@
 export const ROUTE_SEGMENTS = {
-  error: "error" as const,
   auth: "auth" as const,
   auth_signup: "signup" as const,
   auth_login: "login" as const,
   dashboard: "dashboard" as const,
-  dashboard_accounts: "accounts" as const,
-  dashboard_flow: "flow" as const,
-  dashboard_report: "report" as const,
+  accounts: "accounts" as const,
+  report: "report" as const,
+  workflow: "workflow" as const,
+  playground: "playground" as const,
+  list: "list" as const,
+  specific_id: ":id" as const,
+  detail: "detail" as const,
+  error: "error" as const,
+  unknown: "unknown" as const,
 };
 
 export const ROUTE_PATHS = {
@@ -25,19 +30,20 @@ export const ROUTE_PATHS = {
   dashboard: {
     root: `/${ROUTE_SEGMENTS.dashboard}` as const,
     accounts: {
-      root: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.dashboard_accounts}` as const,
-      list: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.dashboard_accounts}/list` as const,
-      detail: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.dashboard_accounts}/:id` as const,
-    },
-    flow: {
-      root: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.dashboard_flow}` as const,
-      list: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.dashboard_flow}/list` as const,
-      detail: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.dashboard_flow}/:id` as const,
+      root: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.accounts}` as const,
+      list: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.accounts}/${ROUTE_SEGMENTS.list}` as const,
+      id: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.accounts}/${ROUTE_SEGMENTS.specific_id}` as const,
     },
     report: {
-      root: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.dashboard_report}` as const,
-      list: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.dashboard_report}/list` as const,
-      detail: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.dashboard_report}/:id` as const,
+      root: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.report}` as const,
+      list: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.report}/${ROUTE_SEGMENTS.list}` as const,
+      id: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.report}/${ROUTE_SEGMENTS.specific_id}` as const,
+    },
+    workflow: {
+      root: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.workflow}` as const,
+      list: `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.workflow}/${ROUTE_SEGMENTS.list}` as const,
+      playground:
+        `/${ROUTE_SEGMENTS.dashboard}/${ROUTE_SEGMENTS.workflow}/${ROUTE_SEGMENTS.playground}` as const,
     },
   },
 };
