@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 
 import { Controller, useFormContext } from "react-hook-form";
 
@@ -42,11 +42,6 @@ const FormFieldPassword: FC<Props> = ({
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const toggleablePasswordIcon = useMemo<JSX.Element>(
-    () => (showPassword ? <Icon icon="solar:eye-closed-bold" /> : <Icon icon="solar:eye-bold" />),
-    [showPassword],
-  );
-
   const handleClickShowPassword = useCallback(
     () => setShowPassword((show) => !show),
     [setShowPassword],
@@ -88,7 +83,11 @@ const FormFieldPassword: FC<Props> = ({
                     edge="end"
                     color="primary"
                   >
-                    {toggleablePasswordIcon}
+                    <Icon
+                      icon={
+                        showPassword ? "solar:eye-closed-bold-duotone" : "solar:eye-bold-duotone"
+                      }
+                    />
                   </MuiIconButton>
                 </MuiInputAdornment>
               ),

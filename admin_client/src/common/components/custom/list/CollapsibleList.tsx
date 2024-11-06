@@ -54,7 +54,11 @@ const CustomCollapsibleList: FC<Props> = ({
           }}
         >
           <Icon
-            icon={isExpanded ? "solar:alt-arrow-down-linear" : "solar:alt-arrow-right-linear"}
+            icon={
+              isExpanded
+                ? "solar:alt-arrow-down-bold-duotone"
+                : "solar:alt-arrow-right-bold-duotone"
+            }
             style={{
               transform: `scale(${isShowExpandedTitle ? 1 : 0})`,
               animation: "transform 0.5s",

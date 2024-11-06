@@ -28,7 +28,7 @@ const CustomNormalListItem: FC<CustomListItemProps> = ({
   );
 
   return (
-    <MuiListItemButton {...MuiListItemButtonProps}>
+    <MuiListItemButton component="li" {...MuiListItemButtonProps}>
       {icon && (
         <MuiListItemIcon
           sx={{

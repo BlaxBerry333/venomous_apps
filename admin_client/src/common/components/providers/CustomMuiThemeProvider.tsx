@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren } from "react";
-import { createContext, memo, useMemo } from "react";
+import { createContext, memo, useEffect, useMemo } from "react";
 
 import MuiCssBaseline from "@mui/material/CssBaseline";
 import {
@@ -44,16 +44,29 @@ const CustomMuiThemeProvider: FC<PropsWithChildren> = ({ children }) => {
         palette: {
           mode: themeMode,
           primary: themePaletteColorOptions.palette.primary,
-          //   background: {
-          //     default: themeMode === "dark" ? "#141A21" : "#F6F6F6",
-          //     paper: themeMode === "dark" ? "#1C252E" : "#FFFFFF",
-          //   },
         },
         components: { ...overrideMuiComponentsOptions },
         typography: { ...overrideMuiTypographyOptions },
       }),
     [themeMode, themePaletteColorOptions],
   );
+
+  // ----------------------------------------------------------------------------------------------------
+
+  useEffect(() => {
+    const mainThemePaletteColor = themePaletteColorOptions.palette.primary.main;
+    const style = document.createElement("style");
+    style.innerHTML = `
+      ::selection {
+        background-color: ${mainThemePaletteColor};  /* 设置选中文本的背景色 */
+        color: white;                                /* 设置选中文本的文字颜色 */
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, [themePaletteColorOptions]);
 
   // ----------------------------------------------------------------------------------------------------
 

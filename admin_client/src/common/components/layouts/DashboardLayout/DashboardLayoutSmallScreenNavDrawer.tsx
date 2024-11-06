@@ -23,7 +23,7 @@ export const DashboardLayoutSmallScreenNavToggleButton = memo(() => {
       onClick={layoutContextValue?.toggleSmallScreenNavDrawer}
       sx={{ display: layoutContextValue?.isSmallScreen ? "flex" : "none" }}
     >
-      <Icon icon="solar:hamburger-menu-linear" />
+      <Icon icon="solar:hamburger-menu-line-duotone" />
     </MuiIconButton>
   );
 });

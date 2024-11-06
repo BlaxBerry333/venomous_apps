@@ -35,9 +35,9 @@ const DashboardLayoutHeaderLogo: FC<{ showLogo?: boolean; showTitle?: boolean }>
         sx={{
           display: showTitle ? "block" : "none",
           fontWeight: 600,
-          fontSize: "1.3rem",
+          fontSize: "1.2rem",
           fontStyle: "italic",
-          ml: -0.8,
+          ml: -0.5,
           pt: 1.5,
         }}
       >
