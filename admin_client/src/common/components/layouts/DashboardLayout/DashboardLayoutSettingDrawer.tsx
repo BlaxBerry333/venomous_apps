@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { memo, useCallback, useContext, useMemo } from "react";
+import { memo, useCallback, useContext } from "react";
 
 import { Icon } from "@iconify/react";
 
@@ -18,9 +18,8 @@ import MuiSwitch from "@mui/material/Switch";
 import MuiToolbar from "@mui/material/Toolbar";
 import MuiTypography from "@mui/material/Typography";
 
-import { CustomThemeContext } from "~/common/components/providers/CustomMuiThemeProvider";
+import useCustomThemesContextValue from "~/common/hooks/use-dashboard/useCustomThemesContextValue";
 import {
-  CustomThemeModeType,
   CustomThemePaletteColorName,
   CustomThemePaletteColorOptions,
 } from "~/common/modules/mui/custom-themes";
@@ -37,8 +36,7 @@ export const DashboardLayoutSettingToggleButton = memo(() => {
 });
 
 const DashboardLayoutSettingDrawer: FC = () => {
-  const customThemeContextValue = useContext(CustomThemeContext);
-
+  const customThemeContextValue = useCustomThemesContextValue();
   const layoutContextValue = useContext(DashboardLayoutContext);
 
   // ----------------------------------------------------------------------------------------------------
@@ -93,12 +91,8 @@ const DashboardLayoutSettingDrawer: FC = () => {
 };
 
 const SettingBlockThemeMode = memo(() => {
-  const customThemeContextValue = useContext(CustomThemeContext);
-
-  const isDarkMode = useMemo<boolean>(
-    () => customThemeContextValue?.themeMode === CustomThemeModeType.dark,
-    [customThemeContextValue?.themeMode],
-  );
+  const customThemeContextValue = useCustomThemesContextValue();
+  const isDarkMode = !!customThemeContextValue?.isDarkMode;
 
   return (
     <MuiCard>
@@ -131,16 +125,12 @@ const SettingBlockThemeMode = memo(() => {
 });
 
 const SettingBlockThemePalettes = memo(() => {
-  const customThemeContextValue = useContext(CustomThemeContext);
-
-  const isDarkMode = useMemo<boolean>(
-    () => customThemeContextValue?.themeMode === CustomThemeModeType.dark,
-    [customThemeContextValue?.themeMode],
-  );
+  const customThemeContextValue = useCustomThemesContextValue();
+  const isDarkMode = !!customThemeContextValue?.isDarkMode;
 
   const checkIsSelected = useCallback(
     (colorName: CustomThemePaletteColorName): boolean =>
-      customThemeContextValue?.themePaletteColorOptions.name === colorName,
+      customThemeContextValue?.themePaletteName === colorName,
     [customThemeContextValue],
   );
 

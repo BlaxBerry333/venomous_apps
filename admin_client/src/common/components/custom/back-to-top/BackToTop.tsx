@@ -42,7 +42,7 @@ const CustomBackToTop: FC<Props> = ({ scrollTarget }) => {
           bottom: 0,
           right: 0,
           width: 1,
-          display: "flex",
+          display: trigger ? "flex" : "none",
           justifyContent: "flex-end",
           pr: 2,
         }}

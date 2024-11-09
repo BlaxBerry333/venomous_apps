@@ -9,7 +9,7 @@ export const overrideMuiComponentsOptions: MuiComponents<Omit<MuiTheme, "compone
 
   MuiButton: {
     styleOverrides: {
-      root: { textTransform: "capitalize", fontWeight: 600, minWidth: 80 },
+      root: { textTransform: "capitalize", fontWeight: 600, minWidth: 80, borderRadius: 8 },
     },
     defaultProps: {
       variant: "contained",
@@ -24,7 +24,7 @@ export const overrideMuiComponentsOptions: MuiComponents<Omit<MuiTheme, "compone
 
   MuiDivider: {
     styleOverrides: {
-      root: { paddingTop: 8, paddingBottom: 8, fontSize: "0.8em" },
+      root: { marginTop: 8, marginBottom: 8, fontSize: "0.8em" },
     },
   },
 

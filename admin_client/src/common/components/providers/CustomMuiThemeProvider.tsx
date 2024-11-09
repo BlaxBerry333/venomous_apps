@@ -8,33 +8,21 @@ import {
   type Theme as MuiTheme,
 } from "@mui/material/styles";
 
-import useCustomThemes from "~/common/hooks/useCustomThemes";
+import useCustomThemes from "~/common/hooks/use-dashboard/useCustomThemes";
 import {
   overrideMuiComponentsOptions,
   overrideMuiTypographyOptions,
 } from "~/common/modules/mui/override-themes";
 
-type CustomThemeContextValueType = Pick<
-  ReturnType<typeof useCustomThemes>,
-  | "themeMode"
-  | "toggleThemeMode"
-  | "themePaletteColorOptions"
-  | "changeThemePaletteColor"
-  | "isThemeValuesChanged"
-  | "resetThemeValues"
->;
+type CustomThemeContextValueType = ReturnType<typeof useCustomThemes>;
 
 export const CustomThemeContext = createContext<null | CustomThemeContextValueType>(null);
 
 const CustomMuiThemeProvider: FC<PropsWithChildren> = ({ children }) => {
-  const {
-    themeMode,
-    themePaletteColorOptions,
-    toggleThemeMode,
-    changeThemePaletteColor,
-    isThemeValuesChanged,
-    resetThemeValues,
-  } = useCustomThemes();
+  const customThemes = useCustomThemes();
+
+  const themeMode = customThemes?.themeMode;
+  const themePaletteColorOptions = customThemes?.themePaletteColorOptions;
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -71,16 +59,7 @@ const CustomMuiThemeProvider: FC<PropsWithChildren> = ({ children }) => {
   // ----------------------------------------------------------------------------------------------------
 
   return (
-    <CustomThemeContext.Provider
-      value={{
-        themeMode,
-        toggleThemeMode,
-        themePaletteColorOptions,
-        changeThemePaletteColor,
-        isThemeValuesChanged,
-        resetThemeValues,
-      }}
-    >
+    <CustomThemeContext.Provider value={customThemes}>
       <MuiThemeProvider theme={theme}>
         <MuiCssBaseline />
         {children}

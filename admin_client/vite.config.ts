@@ -66,6 +66,7 @@ export default defineConfig(({ mode }) => {
         "@tanstack/react-query",
         "react-hook-form",
         "@hookform/resolvers",
+        "@xyflow/react",
       ],
     },
   };

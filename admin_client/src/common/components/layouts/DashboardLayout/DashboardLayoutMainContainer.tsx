@@ -6,10 +6,9 @@ import MuiContainer from "@mui/material/Container";
 
 import { BackToTopAnchor, CustomBackToTop } from "~/common/components/custom/back-to-top";
 import { DashboardLayoutContext } from "./context";
-import DashboardLayoutFooter from "./DashboardLayoutFooter";
 import DashboardLayoutNavMenu from "./DashboardLayoutNavMenu";
 
-const DashboardLayoutContentContainer: FC<PropsWithChildren> = ({ children }) => {
+const DashboardLayoutMainContainer: FC<PropsWithChildren> = ({ children }) => {
   const layoutContextValue = useContext(DashboardLayoutContext);
 
   // ----------------------------------------------------------------------------------------------------
@@ -32,14 +31,13 @@ const DashboardLayoutContentContainer: FC<PropsWithChildren> = ({ children }) =>
           width: 240,
           height: `calc(100svh - 64px)`,
           overflowY: "scroll",
-          pr: 1,
         }}
       >
         <DashboardLayoutNavMenu />
       </MuiBox>
 
       <MuiBox
-        component="section"
+        component="div"
         sx={{
           flex: 1,
           height: `calc(100svh - 64px)`,
@@ -54,11 +52,10 @@ const DashboardLayoutContentContainer: FC<PropsWithChildren> = ({ children }) =>
       >
         <div id={BackToTopAnchor} />
         {children}
-        <DashboardLayoutFooter />
         <CustomBackToTop scrollTarget={scrollTarget} />
       </MuiBox>
     </MuiContainer>
   );
 };
 
-export default memo(DashboardLayoutContentContainer);
+export default memo(DashboardLayoutMainContainer);

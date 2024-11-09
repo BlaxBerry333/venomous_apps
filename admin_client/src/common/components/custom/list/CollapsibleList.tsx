@@ -8,7 +8,7 @@ import MuiList, { type ListProps as MuiListProps } from "@mui/material/List";
 import MuiListSubheader from "@mui/material/ListSubheader";
 import MuiTypography from "@mui/material/Typography";
 
-import useBoolean from "~/common/hooks/useBoolean";
+import useBoolean from "~/common/hooks/_base/useBoolean";
 
 type Props = PropsWithChildren<{
   MuiListProps?: MuiListProps;
@@ -60,7 +60,7 @@ const CustomCollapsibleList: FC<Props> = ({
                 : "solar:alt-arrow-right-bold-duotone"
             }
             style={{
-              transform: `scale(${isShowExpandedTitle ? 1 : 0})`,
+              transform: `scale(${isExpanded || isShowExpandedTitle ? 1 : 0})`,
               animation: "transform 0.5s",
             }}
           />

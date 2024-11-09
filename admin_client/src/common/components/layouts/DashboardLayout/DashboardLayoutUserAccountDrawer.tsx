@@ -9,8 +9,8 @@ import MuiIconButton from "@mui/material/IconButton";
 import MuiTypography from "@mui/material/Typography";
 
 import { _MOCK_USER } from "~/common/__mocks__/_user";
-import useAccount from "~/common/hooks/useAccount";
-import useBoolean from "~/common/hooks/useBoolean";
+import useBoolean from "~/common/hooks/_base/useBoolean";
+import useAccount from "~/common/hooks/use-dashboard/useAccount";
 
 const DashboardLayoutUserAccountDrawerButton: FC = () => {
   const profileDrawer = useBoolean(false);

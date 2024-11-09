@@ -7,9 +7,9 @@ import {
   CustomNormalListItem,
 } from "~/common/components/custom/list";
 import { CustomRouterLink } from "~/common/components/custom/router-link";
-import type { NavMenuItemType } from "~/common/hooks/useCustomLayoutNavigation";
-import useCustomLayoutNavigation from "~/common/hooks/useCustomLayoutNavigation";
-import useIsRouteMatched from "~/common/hooks/useIsRouteMatched";
+import useIsRouteMatched from "~/common/hooks/_base/useIsRouteMatched";
+import type { NavMenuItemType } from "~/common/hooks/use-dashboard/useCustomLayoutNavigation";
+import useCustomLayoutNavigation from "~/common/hooks/use-dashboard/useCustomLayoutNavigation";
 
 const DashboardLayoutNavMenu: FC = () => {
   const { OverviewNavigationList, managementNavigationList } = useCustomLayoutNavigation();

@@ -1,7 +1,9 @@
+import DashboardLayoutMainContainerInnerWrappers from "~/common/components/layouts/DashboardLayout/DashboardLayoutMainContainerInnerWrappers";
+
 export default function DashboardReportListPageView() {
   return (
-    <>
-      <div>DashboardReportListPageView</div>
-    </>
+    <DashboardLayoutMainContainerInnerWrappers isOverflowHidden={false} showCommonFooter>
+      <div style={{ height: "300vh" }}>DashboardReportListPageView</div>
+    </DashboardLayoutMainContainerInnerWrappers>
   );
 }

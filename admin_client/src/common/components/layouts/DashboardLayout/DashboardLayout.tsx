@@ -4,10 +4,10 @@ import { memo } from "react";
 import useTheme from "@mui/material/styles/useTheme";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import useBoolean from "~/common/hooks/useBoolean";
+import useBoolean from "~/common/hooks/_base/useBoolean";
 import { DashboardLayoutContext } from "./context";
-import DashboardLayoutContentContainer from "./DashboardLayoutContentContainer";
 import DashboardLayoutHeader from "./DashboardLayoutHeader";
+import DashboardLayoutMainContainer from "./DashboardLayoutMainContainer";
 import DashboardLayoutSettingDrawer from "./DashboardLayoutSettingDrawer";
 import DashboardLayoutSmallScreenNavDrawer from "./DashboardLayoutSmallScreenNavDrawer";
 
@@ -37,7 +37,7 @@ const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
     >
       <DashboardLayoutHeader />
 
-      <DashboardLayoutContentContainer>{children}</DashboardLayoutContentContainer>
+      <DashboardLayoutMainContainer>{children}</DashboardLayoutMainContainer>
 
       <DashboardLayoutSmallScreenNavDrawer />
 

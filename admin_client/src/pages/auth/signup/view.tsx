@@ -6,7 +6,7 @@ import { ROUTE_PATHS } from "~/router";
 
 import AuthSignUpForm, {
   type AuthSignUpFormValueType,
-} from "~/views/AuthSignUpPageView/AuthSignUpForm";
+} from "~/common/components/sections/auth-signup/AuthSignUpForm";
 
 export default function AuthSignUpPageView() {
   const navigate = useNavigate();
