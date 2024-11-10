@@ -16,6 +16,7 @@ import {
   useWorkflowEventsEdges,
   useWorkflowEventsNodes,
   useWorkflowGeneralEvents,
+  useWorkflowHelperLines,
   useWorkflowUndoRedo,
 } from "~/common/hooks/use-dashboard-workflow";
 import {
@@ -32,6 +33,7 @@ import { DASHBOARD_WORKFLOW_CONFIGS } from "~/configs";
 
 import { customEdgeComponentsTypes } from "../custom-edges";
 import { customNodeComponentsTypes } from "../custom-nodes";
+import { CustomHelperLine } from "../helper-line";
 import { CustomUndoRedoDevtool } from "../undo-redo-devtool";
 import { WorkflowPlaygroundActions } from "./playground-actions";
 
@@ -89,6 +91,8 @@ const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
 
   const customThemeContextValue = useCustomThemesContextValue();
 
+  const { customNodesChange, helperLineHorizontal, helperLineVertical } = useWorkflowHelperLines();
+
   // ----------------------------------------------------------------------------------------------------
 
   return (
@@ -98,6 +102,8 @@ const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
         defaultEdges={newData.edges} /** 受控组件写法：边列表 */
         // onNodesChange={onNodesChange} /** 受控组件写法：监听节点的变化 ( 选中、删除、更新 ) */
         // onEdgesChange={onEdgesChange} /** 受控组件写法：监听边的变化 ( 选中、删除、更新 ) */
+        // ----------------------------------------------------------------------------------------------------
+        onNodesChange={customNodesChange}
         // ----------------------------------------------------------------------------------------------------
         onNodeDragStart={onNodeDragStart} /** 节点在Canvas上的开始 */
         onNodeDrag={onNodeDrag} /** 节点在Canvas上的拖动中 */
@@ -153,6 +159,12 @@ const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
         <WorkflowPlaygroundActions />
 
         <CustomUndoRedoDevtool showDevtool={DASHBOARD_WORKFLOW_CONFIGS.ShowFlowUndoRedoDevtool} />
+
+        <CustomHelperLine
+          showHelperLines={DASHBOARD_WORKFLOW_CONFIGS.ShowFlowHelperLines}
+          horizontal={helperLineHorizontal}
+          vertical={helperLineVertical}
+        />
       </ReactFlow>
     </MuiCard>
   );

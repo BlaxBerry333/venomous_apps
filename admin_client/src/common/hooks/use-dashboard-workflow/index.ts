@@ -5,5 +5,6 @@ export { default as useWorkflowEventsDragDrop } from "./useWorkflowEventsDragDro
 export { default as useWorkflowEventsEdges } from "./useWorkflowEventsEdges";
 export { default as useWorkflowEventsNodes } from "./useWorkflowEventsNodes";
 export { default as useWorkflowGeneralEvents } from "./useWorkflowGeneralEvents";
+export { default as useWorkflowHelperLines } from "./useWorkflowHelperLines";
 export { default as useWorkflowHelperNodeStyles } from "./useWorkflowHelperNodeStyles";
 export { default as useWorkflowUndoRedo } from "./useWorkflowUndoRedo";
