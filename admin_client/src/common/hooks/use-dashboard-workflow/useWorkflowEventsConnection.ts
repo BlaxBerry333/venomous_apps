@@ -47,6 +47,8 @@ export default function useWorkflowEventsConnection() {
     (connection: Connection) => {
       console.log("onConnect", connection);
       setEdges((els) => addEdge(connection, els));
+      // 不建议在此处 onConnect、onConnectEnd 处理连接逻辑。会导致多次状态的存储
+      // 建议在 Handler 组件的 onConnect 事件处理
     },
     [setEdges],
   );
@@ -55,6 +57,15 @@ export default function useWorkflowEventsConnection() {
   const onConnectEnd: OnConnectEnd = useCallback((_, connectionState: FinalConnectionState) => {
     console.log("onConnectEnd", connectionState);
   }, []);
+
+  /** 连接组件 Handler 连接成功时 */
+  const onHandlerConnect: OnConnect = useCallback(
+    (connection: Connection) => {
+      console.log("Handler's onConnect", connection);
+      updateUndoRedoHistory(WorkFlowActionEventName.onConnect);
+    },
+    [updateUndoRedoHistory],
+  );
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -85,7 +96,7 @@ export default function useWorkflowEventsConnection() {
       }
       edgeReconnectSuccessful.current = true;
 
-      updateUndoRedoHistory(WorkFlowActionEventName.onConnect);
+      updateUndoRedoHistory(WorkFlowActionEventName.onReconnect);
     },
     [setEdges, updateUndoRedoHistory],
   );
@@ -102,6 +113,7 @@ export default function useWorkflowEventsConnection() {
     onConnectStart,
     onConnect,
     onConnectEnd,
+    onHandlerConnect,
     onReconnectStart,
     onReconnect,
     onReconnectEnd,

@@ -8,7 +8,10 @@ import { Icon } from "@iconify/react";
 import MuiCard from "@mui/material/Card";
 import MuiTypography from "@mui/material/Typography";
 
-import { useWorkflowHelperNodeStyles } from "~/common/hooks/use-dashboard-workflow";
+import {
+  useWorkflowEventsConnection,
+  useWorkflowHelperNodeStyles,
+} from "~/common/hooks/use-dashboard-workflow";
 import { type CustomNodeProps } from "~/common/types/dashboard-workflow";
 
 const CustomStartNode: FC<CustomNodeProps> = (nodeProps) => {
@@ -17,6 +20,10 @@ const CustomStartNode: FC<CustomNodeProps> = (nodeProps) => {
   // ----------------------------------------------------------------------------------------------------
 
   const { startNodeWrapperStyle, commonNodeHandlerStyle } = useWorkflowHelperNodeStyles(nodeProps);
+
+  // ----------------------------------------------------------------------------------------------------
+
+  const { onHandlerConnect } = useWorkflowEventsConnection();
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -30,7 +37,7 @@ const CustomStartNode: FC<CustomNodeProps> = (nodeProps) => {
         type="source"
         position={_Position.Right}
         isConnectable={isConnectable}
-        onConnect={(params) => console.log("source handler onConnect", params)}
+        onConnect={onHandlerConnect}
         style={{ ...commonNodeHandlerStyle, backgroundColor: "GrayText" }}
       />
     </MuiCard>

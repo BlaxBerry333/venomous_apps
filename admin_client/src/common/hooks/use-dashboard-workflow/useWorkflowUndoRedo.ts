@@ -12,11 +12,11 @@ import { DASHBOARD_WORKFLOW_CONFIGS } from "~/configs";
 
 export enum WorkFlowActionEventName {
   onInit = "onInit",
-  onConnect = "onConnect",
+  onConnect = "onConnect", // 不建议在 Flow 组件的事件上处理连接逻辑, 建议通过 Handler 组件的 onConnect 事件处理
   onReconnect = "onReconnect",
   onNodeDragStop = "onNodeDragStop",
   onDrop = "onDrop",
-  onDelete = "onDelete", // 删除 node 或 edge
+  onDelete = "onDelete", // 同时删除 node 或 edge 时统一处理
   // onEdgesDelete = "onEdgesDelete", // 不建议分别处理 node 与 edge 的删除逻辑。会导致2次状态的存储
   // onNodesDelete = "onNodesDelete", // 不建议分别处理 node 与 edge 的删除逻辑。会导致多次状态的存储
 }
