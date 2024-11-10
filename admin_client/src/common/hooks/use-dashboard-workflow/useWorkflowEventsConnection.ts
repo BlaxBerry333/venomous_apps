@@ -52,13 +52,9 @@ export default function useWorkflowEventsConnection() {
   );
 
   /** 边连接结束 ( 无论连接成功或失败 ) */
-  const onConnectEnd: OnConnectEnd = useCallback(
-    (_, connectionState: FinalConnectionState) => {
-      console.log("onConnectEnd", connectionState);
-      updateUndoRedoHistory(WorkFlowActionEventName.onConnect);
-    },
-    [updateUndoRedoHistory],
-  );
+  const onConnectEnd: OnConnectEnd = useCallback((_, connectionState: FinalConnectionState) => {
+    console.log("onConnectEnd", connectionState);
+  }, []);
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -88,8 +84,10 @@ export default function useWorkflowEventsConnection() {
         setEdges((eds) => eds.filter((e) => e.id !== edge.id));
       }
       edgeReconnectSuccessful.current = true;
+
+      updateUndoRedoHistory(WorkFlowActionEventName.onConnect);
     },
-    [setEdges],
+    [setEdges, updateUndoRedoHistory],
   );
 
   // ----------------------------------------------------------------------------------------------------
