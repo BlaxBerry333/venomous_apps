@@ -14,6 +14,7 @@ import type {
 import { addEdge, reconnectEdge, useReactFlow } from "@xyflow/react";
 
 import type { CustomEdgeType, CustomNodeType } from "~/common/types/dashboard-workflow";
+import useWorkflowUndoRedo, { WorkFlowActionEventName } from "./useWorkflowUndoRedo";
 
 type OnReconnectStart = (
   event: React.MouseEvent,
@@ -30,6 +31,12 @@ type OnReconnectEnd = (
 export default function useWorkflowEventsConnection() {
   const { setEdges } = useReactFlow<CustomNodeType, CustomEdgeType>();
 
+  // ----------------------------------------------------------------------------------------------------
+
+  const { updateUndoRedoHistory } = useWorkflowUndoRedo();
+
+  // ----------------------------------------------------------------------------------------------------
+
   /** 边连接开始 */
   const onConnectStart: OnConnectStart = useCallback((_, params: OnConnectStartParams) => {
     console.log("onConnectStart", params);
@@ -45,9 +52,13 @@ export default function useWorkflowEventsConnection() {
   );
 
   /** 边连接结束 ( 无论连接成功或失败 ) */
-  const onConnectEnd: OnConnectEnd = useCallback((_, connectionState: FinalConnectionState) => {
-    console.log("onConnectEnd", connectionState);
-  }, []);
+  const onConnectEnd: OnConnectEnd = useCallback(
+    (_, connectionState: FinalConnectionState) => {
+      console.log("onConnectEnd", connectionState);
+      updateUndoRedoHistory(WorkFlowActionEventName.onConnect);
+    },
+    [updateUndoRedoHistory],
+  );
 
   // ----------------------------------------------------------------------------------------------------
 

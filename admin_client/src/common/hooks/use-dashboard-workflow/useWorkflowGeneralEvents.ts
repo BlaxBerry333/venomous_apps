@@ -1,11 +1,16 @@
 import { useCallback } from "react";
 
-import type { OnBeforeDelete, OnError, OnInit } from "@xyflow/react";
+import { type OnBeforeDelete, type OnDelete, type OnError, type OnInit } from "@xyflow/react";
 
 import type { CustomEdgeType, CustomNodeType } from "~/common/types/dashboard-workflow";
 import useWorkflowCustomViewport from "./useWorkflowCustomViewport";
+import useWorkflowUndoRedo, { WorkFlowActionEventName } from "./useWorkflowUndoRedo";
 
 export default function useWorkflowGeneralEvents() {
+  const { updateUndoRedoHistory } = useWorkflowUndoRedo();
+
+  // ----------------------------------------------------------------------------------------------------
+
   const { setViewportInitPosition } = useWorkflowCustomViewport();
 
   // ----------------------------------------------------------------------------------------------------
@@ -16,8 +21,10 @@ export default function useWorkflowGeneralEvents() {
       console.log("onInit", flowInstance);
       const firstNodePosition = { x: 0, y: 0 };
       setViewportInitPosition(firstNodePosition);
+
+      updateUndoRedoHistory(WorkFlowActionEventName.onInit);
     },
-    [setViewportInitPosition],
+    [setViewportInitPosition, updateUndoRedoHistory],
   );
 
   // ----------------------------------------------------------------------------------------------------
@@ -39,7 +46,16 @@ export default function useWorkflowGeneralEvents() {
     [],
   );
 
+  /** 节点或边被删除时 */
+  const onDelete: OnDelete<CustomNodeType, CustomEdgeType> = useCallback(
+    (elements) => {
+      console.log("onDelete", elements);
+      updateUndoRedoHistory(WorkFlowActionEventName.onDelete);
+    },
+    [updateUndoRedoHistory],
+  );
+
   // ----------------------------------------------------------------------------------------------------
 
-  return { onInit, onError, onBeforeDelete };
+  return { onInit, onError, onBeforeDelete, onDelete };
 }

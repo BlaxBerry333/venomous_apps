@@ -1,9 +1,15 @@
 import { useCallback } from "react";
 
-import type { NodeMouseHandler, OnNodeDrag, OnNodesDelete } from "@xyflow/react";
+import { type NodeMouseHandler, type OnNodeDrag, type OnNodesDelete } from "@xyflow/react";
+
 import type { CustomNodeType } from "~/common/types/dashboard-workflow";
+import useWorkflowUndoRedo, { WorkFlowActionEventName } from "./useWorkflowUndoRedo";
 
 export default function useWorkflowEventsNodes() {
+  const { updateUndoRedoHistory } = useWorkflowUndoRedo();
+
+  // ----------------------------------------------------------------------------------------------------
+
   /** 受控组件写法：监听节点的变化 ( 选中、删除、更新 ) */
   // const onNodesChange: OnNodesChange = useCallback((changes) => {
   //   console.log("onNodesChange", changes);
@@ -63,16 +69,24 @@ export default function useWorkflowEventsNodes() {
   }, []);
 
   /** 节点在Canvas上的拖动结束 */
-  const onNodeDragStop: OnNodeDrag<CustomNodeType> = useCallback((_, node, nodes) => {
-    console.log("onNodeDragStop:", node, nodes);
-  }, []);
+  const onNodeDragStop: OnNodeDrag<CustomNodeType> = useCallback(
+    async (_, node, nodes) => {
+      console.log("onNodeDragStop:", node, nodes);
+      updateUndoRedoHistory(WorkFlowActionEventName.onNodeDragStop);
+    },
+    [updateUndoRedoHistory],
+  );
 
   // ----------------------------------------------------------------------------------------------------
 
   /** 节点被删除时 */
-  const onNodesDelete: OnNodesDelete<CustomNodeType> = useCallback((nodes: CustomNodeType[]) => {
-    console.log("onNodesDelete", nodes);
-  }, []);
+  const onNodesDelete: OnNodesDelete<CustomNodeType> = useCallback(
+    async (nodes: CustomNodeType[]) => {
+      console.log("onNodesDelete", nodes);
+      // 不建议分别处理 node 与 edge 的删除逻辑。会导致2次状态的存储
+    },
+    [],
+  );
 
   // ----------------------------------------------------------------------------------------------------
 

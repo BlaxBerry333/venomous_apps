@@ -1,14 +1,18 @@
 import { useReactFlow } from "@xyflow/react";
 import { useCallback } from "react";
-import { getLastNode } from "~/common/components/sections/dashboard-workflow/_helpers";
 
+import { getLastNode } from "~/common/components/sections/dashboard-workflow/_helpers";
 import type {
   CustomEdgeType,
   CustomNodeMenuListItemType,
   CustomNodeType,
 } from "~/common/types/dashboard-workflow";
 
+import useWorkflowUndoRedo, { WorkFlowActionEventName } from "./useWorkflowUndoRedo";
+
 export default function useWorkflowEventsDragDrop() {
+  const { updateUndoRedoHistory } = useWorkflowUndoRedo();
+
   // ----------------------------------------------------------------------------------------------------
 
   /** 开始拖拖页面上其他元素 */
@@ -58,8 +62,10 @@ export default function useWorkflowEventsDragDrop() {
       };
 
       setNodes((nds) => nds.concat(newNode));
+
+      updateUndoRedoHistory(WorkFlowActionEventName.onDrop);
     },
-    [screenToFlowPosition, getNodes, setNodes],
+    [screenToFlowPosition, getNodes, setNodes, updateUndoRedoHistory],
   );
 
   // ----------------------------------------------------------------------------------------------------

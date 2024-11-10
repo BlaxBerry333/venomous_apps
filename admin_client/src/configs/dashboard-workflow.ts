@@ -7,6 +7,7 @@ export const DASHBOARD_WORKFLOW_CONFIGS = {
 
   /** Flow UndoRedo 历史记录的最大存储个数 */
   FlowUndoRedoHistoryMaxCount: 10,
+  ShowFlowUndoRedoDevtool: true,
 
   /** Flow 自动保存时间最短间隔 ( ms ) */
   FlowAutoSaveMinTime: 5000,

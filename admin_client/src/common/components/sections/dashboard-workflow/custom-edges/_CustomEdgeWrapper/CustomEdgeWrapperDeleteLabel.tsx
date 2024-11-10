@@ -8,6 +8,8 @@ import { Icon } from "@iconify/react";
 import MuiIconButton from "@mui/material/IconButton";
 import MuiPaper from "@mui/material/Paper";
 
+import { useWorkflowUndoRedo } from "~/common/hooks/use-dashboard-workflow";
+import { WorkFlowActionEventName } from "~/common/hooks/use-dashboard-workflow/useWorkflowUndoRedo";
 import type {
   CustomEdgeProps,
   CustomEdgeType,
@@ -26,11 +28,16 @@ const CustomEdgeWrapperDeleteLabel: FC<{
 
   // ----------------------------------------------------------------------------------------------------
 
+  const { updateUndoRedoHistory } = useWorkflowUndoRedo();
+
+  // ----------------------------------------------------------------------------------------------------
+
   const { setEdges } = useReactFlow<CustomNodeType, CustomEdgeType>();
 
   const onEdgeClick = useCallback(() => {
     setEdges((edges) => edges.filter((edge) => edge.id !== id));
-  }, [setEdges, id]);
+    updateUndoRedoHistory(WorkFlowActionEventName.onDelete);
+  }, [setEdges, id, updateUndoRedoHistory]);
 
   // ----------------------------------------------------------------------------------------------------
 

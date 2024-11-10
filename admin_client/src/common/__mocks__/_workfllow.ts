@@ -36,6 +36,19 @@ export const _MOCK_NODES: CustomNodeType[] = [
       },
     },
   },
+  {
+    id: "4",
+    type: CustomNodeTypeName.blank,
+    position: { x: 600, y: 80 },
+    data: {
+      form: {
+        value: {
+          title: "ooooo",
+        },
+        isValid: true,
+      },
+    },
+  },
 ];
 
 export const _MOCK_EDGES: CustomEdgeType[] = [

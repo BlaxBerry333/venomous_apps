@@ -1,7 +1,8 @@
 import type { FC } from "react";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 
-import { ConnectionLineType, MarkerType, ReactFlow } from "@xyflow/react";
+import { ConnectionLineType, MarkerType, ReactFlow, useReactFlow } from "@xyflow/react";
+import { isEqual } from "lodash-es";
 
 // import "@xyflow/react/dist/style.css";
 import "@xyflow/react/dist/base.css";
@@ -9,30 +10,53 @@ import "./override-reactflow-styles.css";
 
 import MuiCard from "@mui/material/Card";
 
-import { _MOCK_EDGES, _MOCK_NODES } from "~/common/__mocks__/_workfllow";
 import {
   useWorkflowEventsConnection,
   useWorkflowEventsDragDrop,
   useWorkflowEventsEdges,
   useWorkflowEventsNodes,
   useWorkflowGeneralEvents,
+  useWorkflowUndoRedo,
 } from "~/common/hooks/use-dashboard-workflow";
-
+import {
+  initialElements,
+  type WorkflowElementsType,
+} from "~/common/hooks/use-dashboard-workflow/useWorkflowUndoRedo";
 import useCustomThemesContextValue from "~/common/hooks/use-dashboard/useCustomThemesContextValue";
-import { CustomEdgeTypeName } from "~/common/types/dashboard-workflow";
+import {
+  CustomEdgeTypeName,
+  type CustomEdgeType,
+  type CustomNodeType,
+} from "~/common/types/dashboard-workflow";
 import { DASHBOARD_WORKFLOW_CONFIGS } from "~/configs";
+
 import { customEdgeComponentsTypes } from "../custom-edges";
 import { customNodeComponentsTypes } from "../custom-nodes";
+import { CustomUndoRedoDevtool } from "../undo-redo-devtool";
 import { WorkflowPlaygroundActions } from "./playground-actions";
 
-const WorkflowPlayground: FC = () => {
+const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
   // 受控组件写法
   // const [nodes, setNodes , onNodesChange] = useNodesState(initialNodes);
   // const [edges, setEdges , onEdgesChange] = useEdgesState(initialEdges);
 
   // ----------------------------------------------------------------------------------------------------
 
-  const { onInit, onError, onBeforeDelete } = useWorkflowGeneralEvents();
+  const { setNodes, setEdges } = useReactFlow<CustomNodeType, CustomEdgeType>();
+
+  const { elements } = useWorkflowUndoRedo();
+
+  useEffect(() => {
+    if (isEqual(elements, initialElements)) {
+      return;
+    }
+    setNodes(elements.nodes);
+    setEdges(elements.edges);
+  }, [elements, setNodes, setEdges]);
+
+  // ----------------------------------------------------------------------------------------------------
+
+  const { onInit, onError, onBeforeDelete, onDelete } = useWorkflowGeneralEvents();
 
   const {
     onNodeClick,
@@ -70,12 +94,8 @@ const WorkflowPlayground: FC = () => {
   return (
     <MuiCard variant="outlined" sx={{ height: "100%", width: "100%" }}>
       <ReactFlow
-        // ----------------------------------------------------------------------------------------------------
-        defaultNodes={_MOCK_NODES} /** 非控组件写法：节点列表 */
-        defaultEdges={_MOCK_EDGES} /** 非控组件写法：边列表 */
-        // ----------------------------------------------------------------------------------------------------
-        // nodes={initialNodes} /** 受控组件写法：节点列表 */
-        // edges={initialEdges} /** 受控组件写法：边列表 */
+        defaultNodes={newData.nodes} /** 受控组件写法：节点列表 */
+        defaultEdges={newData.edges} /** 受控组件写法：边列表 */
         // onNodesChange={onNodesChange} /** 受控组件写法：监听节点的变化 ( 选中、删除、更新 ) */
         // onEdgesChange={onEdgesChange} /** 受控组件写法：监听边的变化 ( 选中、删除、更新 ) */
         // ----------------------------------------------------------------------------------------------------
@@ -101,6 +121,7 @@ const WorkflowPlayground: FC = () => {
         onInit={onInit} /** Canvas 初始化时 */
         onError={onError} /** Canvas 有错误发生时 */
         onBeforeDelete={onBeforeDelete} /** 节点或边在被删除前 */
+        onDelete={onDelete} /** 节点或边被删除时 */
         onDragOver={handleOnDragOver} /** 拖动页面元素经过Canvas */
         onDrop={handleOnDrop} /** 拖动页面元素放入Canvas */
         // ----------------------------------------------------------------------------------------------------
@@ -130,6 +151,8 @@ const WorkflowPlayground: FC = () => {
         proOptions={{ hideAttribution: true }}
       >
         <WorkflowPlaygroundActions />
+
+        <CustomUndoRedoDevtool showDevtool={DASHBOARD_WORKFLOW_CONFIGS.ShowFlowUndoRedoDevtool} />
       </ReactFlow>
     </MuiCard>
   );
