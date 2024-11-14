@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 import { type NodeMouseHandler, type OnNodeDrag, type OnNodesDelete } from "@xyflow/react";
 
@@ -58,9 +58,12 @@ export default function useWorkflowEventsNodes() {
 
   // ----------------------------------------------------------------------------------------------------
 
+  const nodeDragStartPosition = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+
   /** 节点在Canvas上的拖动开始 */
   const onNodeDragStart: OnNodeDrag<CustomNodeType> = useCallback((_, node, nodes) => {
     console.log("onNodeDragStart:", node, nodes);
+    nodeDragStartPosition.current = { x: node.position.x, y: node.position.y };
   }, []);
 
   /** 节点在Canvas上的拖动中 */
@@ -72,7 +75,13 @@ export default function useWorkflowEventsNodes() {
   const onNodeDragStop: OnNodeDrag<CustomNodeType> = useCallback(
     async (_, node, nodes) => {
       console.log("onNodeDragStop:", node, nodes);
-      updateUndoRedoHistory(WorkFlowActionEventName.onNodeDragStop);
+
+      const { x, y } = nodeDragStartPosition.current;
+      if (!(x === node.position.x && y === node.position.y)) {
+        if (x !== 0 && y !== 0) {
+          updateUndoRedoHistory(WorkFlowActionEventName.onNodeDragStop);
+        }
+      }
     },
     [updateUndoRedoHistory],
   );

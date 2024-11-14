@@ -83,22 +83,24 @@ export default function useWorkflowEventsConnection() {
       console.log("onReconnect", oldEdge, newConnection);
       edgeReconnectSuccessful.current = true;
       setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
+
+      if (!(oldEdge.target === newConnection.target)) {
+        updateUndoRedoHistory(WorkFlowActionEventName.onReconnect);
+      }
     },
-    [setEdges],
+    [setEdges, updateUndoRedoHistory],
   );
 
   /** 边重新连接结束 ( 无论连接成功或失败 ) */
   const onReconnectEnd: OnReconnectEnd = useCallback(
-    (_, edge) => {
+    async (_, edge) => {
       console.log("onReconnectEnd", edge);
       if (!edgeReconnectSuccessful.current) {
         setEdges((eds) => eds.filter((e) => e.id !== edge.id));
       }
       edgeReconnectSuccessful.current = true;
-
-      updateUndoRedoHistory(WorkFlowActionEventName.onReconnect);
     },
-    [setEdges, updateUndoRedoHistory],
+    [setEdges],
   );
 
   // ----------------------------------------------------------------------------------------------------
