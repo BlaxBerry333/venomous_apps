@@ -6,9 +6,7 @@ COLOR_NOCOLOR='\033[0m'
 # admin client
 echo "${COLOR_PURPLE}[Husky pre-commit]${COLOR_NOCOLOR} checking scripts of admin_client..."
 cd admin_client
-npm run check-all
-npm run check-packages
-npm run format-all
+concurrently "npm run check-all" "npm run check-packages" "npm run format-all"
 echo "${COLOR_GREEN}OK...${COLOR_NOCOLOR}"
 cd -
 
@@ -26,9 +24,7 @@ cd -
 # bff
 echo "${COLOR_PURPLE}[Husky pre-commit]${COLOR_NOCOLOR} checking scripts of bff..."
 cd bff
-npm run check-all
-npm run check-packages
-npm run format-all
+concurrently "npm run check-all" "npm run check-packages" "npm run format-all" 
 echo "${COLOR_GREEN}OK...${COLOR_NOCOLOR}"
 cd -
 
@@ -36,8 +32,6 @@ cd -
 # notes app
 echo "${COLOR_PURPLE}[Husky pre-commit]${COLOR_NOCOLOR} checking scripts of notes_app..."
 cd notes_app
-npm run check-all
-npm run check-packages
-npm run format-all
+concurrently "npm run check-all" "npm run check-packages" "npm run format-all" 
 echo "${COLOR_GREEN}OK...${COLOR_NOCOLOR}"
 cd -
