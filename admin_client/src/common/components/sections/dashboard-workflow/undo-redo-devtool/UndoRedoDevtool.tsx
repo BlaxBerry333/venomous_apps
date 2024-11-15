@@ -58,7 +58,7 @@ const CustomUndoRedoDevtool: FC<{ showDevtool: boolean }> = ({
           bottom: 40,
           right: 16,
           zIndex: 100,
-          width: 240,
+          width: 320,
           maxHeight: 640,
           overflowY: "scroll",
           typography: "caption",

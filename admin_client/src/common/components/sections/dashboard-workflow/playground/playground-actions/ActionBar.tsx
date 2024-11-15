@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { memo, useState } from "react";
+import { memo, useMemo } from "react";
 
 import {
   Background as _Background,
@@ -17,10 +17,14 @@ import ActionButtonSave from "./ActionButtonSave";
 import ActionButtonUndoRedo from "./ActionButtonUndoRedo";
 import ActionButtonZoom from "./ActionButtonZoom";
 
-const WorkflowPlaygroundActionBar: FC = () => {
-  const [selectedBackgroundType, setSelectedBackgroundType] = useState<
-    undefined | _BackgroundVariant
-  >(_BackgroundVariant.Dots);
+const WorkflowPlaygroundActionBar: FC<{
+  isGridLayout: boolean;
+  toggleGridLayout: () => void;
+}> = ({ isGridLayout, toggleGridLayout }) => {
+  const selectedBackgroundType = useMemo<undefined | _BackgroundVariant>(() => {
+    if (isGridLayout) return _BackgroundVariant.Dots;
+    return undefined;
+  }, [isGridLayout]);
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -39,7 +43,7 @@ const WorkflowPlaygroundActionBar: FC = () => {
           <ActionButtonNodeMenu />
           <ActionButtonSwitchGridBackground
             selectedBackgroundType={selectedBackgroundType}
-            changeBackgroundType={(t) => setSelectedBackgroundType(t)}
+            changeBackgroundType={toggleGridLayout}
           />
         </MuiStack>
 

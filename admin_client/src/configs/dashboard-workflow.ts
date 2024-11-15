@@ -45,5 +45,5 @@ export const DASHBOARD_WORKFLOW_CONFIGS = {
   CanvasViewportTransitionDuration: 200,
 
   /** Canvas Gird布局的单位 */
-  CanvasGridLayoutGap: [20, 20],
+  CanvasGridLayoutGap: [20, 20] as [number, number],
 } as const;

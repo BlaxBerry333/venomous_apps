@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useMemo } from "react";
 
 import { ConnectionLineType, MarkerType, ReactFlow, useReactFlow } from "@xyflow/react";
 import { isEqual } from "lodash-es";
@@ -31,6 +31,7 @@ import {
 } from "~/common/types/dashboard-workflow";
 import { DASHBOARD_WORKFLOW_CONFIGS } from "~/configs";
 
+import useBoolean from "~/common/hooks/_base/useBoolean";
 import { customEdgeComponentsTypes } from "../custom-edges";
 import { customNodeComponentsTypes } from "../custom-nodes";
 import { CustomHelperLine } from "../helper-line";
@@ -93,6 +94,13 @@ const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
 
   const { customNodesChange, helperLineHorizontal, helperLineVertical } = useWorkflowHelperLines();
 
+  const gridLayout = useBoolean(false);
+
+  const gridLayoutGap = useMemo<undefined | [number, number]>(
+    () => (!gridLayout.value ? undefined : DASHBOARD_WORKFLOW_CONFIGS.CanvasGridLayoutGap),
+    [gridLayout.value],
+  );
+
   // ----------------------------------------------------------------------------------------------------
 
   return (
@@ -143,6 +151,8 @@ const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
         edgesFocusable={false} /** 是否可以使用 Tab 切换边 */
         nodeDragThreshold={5} /** 节点被拖拽了指定 px 之后才会真正在Canvas上移动，可防止失误移动 */
         connectionRadius={DASHBOARD_WORKFLOW_CONFIGS.NodeMinWidth / 4} /** 节点连接的 px 范围 */
+        snapToGrid={gridLayout.value}
+        snapGrid={gridLayoutGap}
         // ----------------------------------------------------------------------------------------------------
         nodeTypes={customNodeComponentsTypes}
         edgeTypes={customEdgeComponentsTypes}
@@ -156,7 +166,10 @@ const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
         // ----------------------------------------------------------------------------------------------------
         proOptions={{ hideAttribution: true }}
       >
-        <WorkflowPlaygroundActions />
+        <WorkflowPlaygroundActions
+          isGridLayout={gridLayout.value}
+          toggleGridLayout={gridLayout.toggle}
+        />
 
         <CustomUndoRedoDevtool showDevtool={DASHBOARD_WORKFLOW_CONFIGS.ShowFlowUndoRedoDevtool} />
 

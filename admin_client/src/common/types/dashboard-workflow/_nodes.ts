@@ -19,6 +19,7 @@ export type CustomNodeDataType = {
     value: CustomNodeDataFormValueType;
     isValid: boolean;
   };
+  isMultipleConnectionSources?: boolean /** 节点是否有多个结束连接点 ( source → sourceHandle ) */;
 };
 
 export type CustomNodeComponentsType = Record<
@@ -36,4 +37,8 @@ export type CustomNodeProps = _NodeProps<CustomNodeType>;
 
 export type CustomNodeDataFormValueType = Record<string, unknown> & {
   title: string;
+  items?: Array<{
+    id: number;
+    title: string;
+  }>;
 };

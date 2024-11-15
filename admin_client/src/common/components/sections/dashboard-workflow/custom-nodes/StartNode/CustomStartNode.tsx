@@ -10,7 +10,7 @@ import MuiTypography from "@mui/material/Typography";
 
 import {
   useWorkflowEventsConnection,
-  useWorkflowHelperNodeStyles,
+  useWorkflowNodeStyles,
 } from "~/common/hooks/use-dashboard-workflow";
 import { type CustomNodeProps } from "~/common/types/dashboard-workflow";
 
@@ -19,7 +19,7 @@ const CustomStartNode: FC<CustomNodeProps> = (nodeProps) => {
 
   // ----------------------------------------------------------------------------------------------------
 
-  const { startNodeWrapperStyle, commonNodeHandlerStyle } = useWorkflowHelperNodeStyles(nodeProps);
+  const { startNodeWrapperStyles, commonNodeHandlerStyles } = useWorkflowNodeStyles(nodeProps);
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ const CustomStartNode: FC<CustomNodeProps> = (nodeProps) => {
   // ----------------------------------------------------------------------------------------------------
 
   return (
-    <MuiCard component="div" sx={startNodeWrapperStyle}>
+    <MuiCard component="div" sx={startNodeWrapperStyles}>
       <MuiTypography component="div" variant="body2" noWrap>
         <Icon icon="solar:home-smile-bold" width={40} />
       </MuiTypography>
@@ -38,7 +38,7 @@ const CustomStartNode: FC<CustomNodeProps> = (nodeProps) => {
         position={_Position.Right}
         isConnectable={isConnectable}
         onConnect={onHandlerConnect}
-        style={{ ...commonNodeHandlerStyle, backgroundColor: "GrayText" }}
+        style={{ ...commonNodeHandlerStyles }}
       />
     </MuiCard>
   );

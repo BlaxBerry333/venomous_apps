@@ -2,9 +2,10 @@ import type { FC } from "react";
 import { memo } from "react";
 
 import MuiCard from "@mui/material/Card";
+import MuiPaper from "@mui/material/Paper";
 import MuiTypography from "@mui/material/Typography";
 
-import { useWorkflowHelperNodeStyles } from "~/common/hooks/use-dashboard-workflow";
+import { useWorkflowNodeStyles } from "~/common/hooks/use-dashboard-workflow";
 import { type CustomNodeWrapperProps } from "~/common/types/dashboard-workflow";
 
 import CustomNodeWrapperConnectionHandlers from "./CustomNodeWrapperConnectionHandlers";
@@ -15,23 +16,30 @@ const CustomNodeWrapper: FC<CustomNodeWrapperProps> = ({ children, ...nodeProps 
 
   // ----------------------------------------------------------------------------------------------------
 
-  const { commonNodeWrapperStyle, commonNodeContentStyle } = useWorkflowHelperNodeStyles(nodeProps);
+  const { commonNodeWrapperStyles, multipleNodeHandlerWrapperStyles } =
+    useWorkflowNodeStyles(nodeProps);
 
   // ----------------------------------------------------------------------------------------------------
 
   return (
-    <MuiCard component="div" sx={commonNodeWrapperStyle}>
-      <CustomNodeWrapperHeader {...nodeProps} />
+    <>
+      <MuiCard component="div" sx={commonNodeWrapperStyles}>
+        <CustomNodeWrapperHeader {...nodeProps} />
 
-      <MuiTypography component="div" variant="subtitle2" noWrap style={commonNodeContentStyle}>
-        {data.form?.value?.title || `#${id}`}
-      </MuiTypography>
+        <MuiTypography component="div" variant="subtitle2" noWrap>
+          {data.form?.value?.title || `#${id}`}
+        </MuiTypography>
 
-      {/* TODO: Node Form */}
-      <div style={{ display: "none" }}>{children}</div>
+        {children}
 
-      <CustomNodeWrapperConnectionHandlers {...nodeProps} />
-    </MuiCard>
+        <CustomNodeWrapperConnectionHandlers.Source {...nodeProps} />
+        <CustomNodeWrapperConnectionHandlers.Target {...nodeProps} />
+      </MuiCard>
+
+      <MuiPaper sx={multipleNodeHandlerWrapperStyles}>
+        <CustomNodeWrapperConnectionHandlers.MultipleSource {...nodeProps} />
+      </MuiPaper>
+    </>
   );
 };
 
