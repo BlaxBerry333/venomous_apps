@@ -17,8 +17,9 @@ export enum WorkFlowActionEventName {
   onNodeDragStop = "onNodeDragStop",
   onDrop = "onDrop",
   onDelete = "onDelete", // 同时删除 node 或 edge 时统一处理
-  // onEdgesDelete = "onEdgesDelete", // 不建议分别处理 node 与 edge 的删除逻辑。会导致2次状态的存储
-  // onNodesDelete = "onNodesDelete", // 不建议分别处理 node 与 edge 的删除逻辑。会导致多次状态的存储
+  onNodesDelete = "onNodesDelete", // 仅删除 nodes ( 不建议分别处理 node 与 edge 的删除逻辑, 会导致2次状态的存储 )
+  onEdgesDelete = "onEdgesDelete", // 仅删除 edges ( 不建议分别处理 node 与 edge 的删除逻辑, 会导致2次状态的存储 )
+  onNodeDataUpdated = "onNodeDataUpdated",
 }
 
 export const initialElements: WorkflowElementsType = {
@@ -87,6 +88,9 @@ export default function useWorkflowUndoRedo() {
         case WorkFlowActionEventName.onDrop:
         case WorkFlowActionEventName.onNodeDragStop:
         case WorkFlowActionEventName.onDelete:
+        case WorkFlowActionEventName.onEdgesDelete:
+        case WorkFlowActionEventName.onNodesDelete:
+        case WorkFlowActionEventName.onNodeDataUpdated:
           update({
             actionEventName,
             elements: {

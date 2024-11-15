@@ -97,10 +97,11 @@ export default function useWorkflowEventsConnection() {
       console.log("onReconnectEnd", edge);
       if (!edgeReconnectSuccessful.current) {
         setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+        updateUndoRedoHistory(WorkFlowActionEventName.onEdgesDelete);
       }
       edgeReconnectSuccessful.current = true;
     },
-    [setEdges],
+    [setEdges, updateUndoRedoHistory],
   );
 
   // ----------------------------------------------------------------------------------------------------
