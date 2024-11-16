@@ -46,4 +46,12 @@ export const DASHBOARD_WORKFLOW_CONFIGS = {
 
   /** Canvas Gird布局的单位 */
   CanvasGridLayoutGap: [20, 20] as [number, number],
+
+  /** Canvas HotKeys */
+  CanvasHotkeys: {
+    CopyNode: "meta+c",
+    PasteNode: "meta+v",
+    Undo: "meta+z",
+    Redo: "meta+shift+z",
+  },
 } as const;

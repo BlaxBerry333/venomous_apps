@@ -10,6 +10,7 @@ import "./override-reactflow-styles.css";
 
 import MuiCard from "@mui/material/Card";
 
+import useBoolean from "~/common/hooks/_base/useBoolean";
 import {
   useWorkflowEventsConnection,
   useWorkflowEventsDragDrop,
@@ -19,6 +20,7 @@ import {
   useWorkflowHelperLines,
   useWorkflowUndoRedo,
 } from "~/common/hooks/use-dashboard-workflow";
+import useWorkflowCustomHotkeys from "~/common/hooks/use-dashboard-workflow/useWorkflowCustomHotkeys";
 import {
   initialElements,
   type WorkflowElementsType,
@@ -30,13 +32,11 @@ import {
   type CustomNodeType,
 } from "~/common/types/dashboard-workflow";
 import { DASHBOARD_WORKFLOW_CONFIGS } from "~/configs";
-
-import useBoolean from "~/common/hooks/_base/useBoolean";
 import { customEdgeComponentsTypes } from "../custom-edges";
 import { customNodeComponentsTypes } from "../custom-nodes";
 import { CustomHelperLine } from "../helper-line";
+import { WorkflowPlaygroundActions } from "../playground-actions";
 import { CustomUndoRedoDevtool } from "../undo-redo-devtool";
-import { WorkflowPlaygroundActions } from "./playground-actions";
 
 const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
   // 受控组件写法
@@ -100,6 +100,10 @@ const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
     () => (!gridLayout.value ? undefined : DASHBOARD_WORKFLOW_CONFIGS.CanvasGridLayoutGap),
     [gridLayout.value],
   );
+
+  // ----------------------------------------------------------------------------------------------------
+
+  useWorkflowCustomHotkeys();
 
   // ----------------------------------------------------------------------------------------------------
 

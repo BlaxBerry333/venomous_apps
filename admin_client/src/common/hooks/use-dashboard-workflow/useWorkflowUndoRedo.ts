@@ -20,6 +20,7 @@ export enum WorkFlowActionEventName {
   onNodesDelete = "onNodesDelete", // 仅删除 nodes ( 不建议分别处理 node 与 edge 的删除逻辑, 会导致2次状态的存储 )
   onEdgesDelete = "onEdgesDelete", // 仅删除 edges ( 不建议分别处理 node 与 edge 的删除逻辑, 会导致2次状态的存储 )
   onNodeDataUpdated = "onNodeDataUpdated",
+  onNodeCopyPasted = "onNodeCopyPasted",
 }
 
 export const initialElements: WorkflowElementsType = {
@@ -91,6 +92,7 @@ export default function useWorkflowUndoRedo() {
         case WorkFlowActionEventName.onEdgesDelete:
         case WorkFlowActionEventName.onNodesDelete:
         case WorkFlowActionEventName.onNodeDataUpdated:
+        case WorkFlowActionEventName.onNodeCopyPasted:
           update({
             actionEventName,
             elements: {
