@@ -29,7 +29,7 @@ type OnReconnectEnd = (
 ) => void;
 
 export default function useWorkflowEventsConnection() {
-  const { setEdges } = useReactFlow<CustomNodeType, CustomEdgeType>();
+  const { setEdges, getEdges } = useReactFlow<CustomNodeType, CustomEdgeType>();
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -46,11 +46,20 @@ export default function useWorkflowEventsConnection() {
   const onConnect: OnConnect = useCallback(
     (connection: Connection) => {
       console.log("onConnect", connection);
+
+      const currentEdges = getEdges();
+      const isStartNodeAlreadyConnected: boolean = currentEdges.some(
+        (e) => e.source === connection.source && connection.source === "1",
+      );
+      if (isStartNodeAlreadyConnected) {
+        setEdges((eds) => eds.filter((e) => e.source !== "1"));
+      }
+
       setEdges((els) => addEdge(connection, els));
       // 不建议在此处 onConnect、onConnectEnd 处理连接逻辑。会导致多次状态的存储
       // 建议在 Handler 组件的 onConnect 事件处理
     },
-    [setEdges],
+    [setEdges, getEdges],
   );
 
   /** 边连接结束 ( 无论连接成功或失败 ) */

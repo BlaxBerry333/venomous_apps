@@ -58,10 +58,4 @@ export const _MOCK_EDGES: CustomEdgeType[] = [
     source: "1",
     target: "3",
   },
-  {
-    id: "e1-2",
-    type: CustomEdgeTypeName.default,
-    source: "1",
-    target: "2",
-  },
 ];
