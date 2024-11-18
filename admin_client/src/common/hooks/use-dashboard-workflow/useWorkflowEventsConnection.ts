@@ -11,9 +11,10 @@ import type {
   OnConnectStartParams,
   OnReconnect,
 } from "@xyflow/react";
-import { addEdge, reconnectEdge, useReactFlow } from "@xyflow/react";
+import { addEdge, reconnectEdge } from "@xyflow/react";
 
-import type { CustomEdgeType, CustomNodeType } from "~/common/types/dashboard-workflow";
+import type { CustomEdgeType } from "~/common/types/dashboard-workflow";
+import useWorkflowInstance from "./useWorkflowInstance";
 import useWorkflowUndoRedo, { WorkFlowActionEventName } from "./useWorkflowUndoRedo";
 
 type OnReconnectStart = (
@@ -29,7 +30,7 @@ type OnReconnectEnd = (
 ) => void;
 
 export default function useWorkflowEventsConnection() {
-  const { setEdges, getEdges } = useReactFlow<CustomNodeType, CustomEdgeType>();
+  const { setEdges, getEdges } = useWorkflowInstance();
 
   // ----------------------------------------------------------------------------------------------------
 

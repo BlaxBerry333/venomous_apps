@@ -1,17 +1,16 @@
 import { useCallback, useRef } from "react";
 
-import { useReactFlow } from "@xyflow/react";
-
 import { getLastNode } from "~/common/components/sections/dashboard-workflow/_helpers";
 import type { CustomEdgeType, CustomNodeType } from "~/common/types/dashboard-workflow";
 import { getSessionStorageItem, setSessionStorageItem } from "~/common/utils/handle-web-storage";
+import useWorkflowInstance from "./useWorkflowInstance";
 import useWorkflowUndoRedo, { WorkFlowActionEventName } from "./useWorkflowUndoRedo";
 
 const WORKFLOW_COPIED_NODES_KEY = "__VENOMOUS_APP__WORKFLOW_COPIED_NODES";
 const WORKFLOW_COPIED_EDGES_KEY = "__VENOMOUS_APP__WORKFLOW_COPIED_EDGES";
 
 export default function useWorkflowCustomCopyPasteDelete() {
-  const { getNodes, setNodes, setEdges } = useReactFlow<CustomNodeType, CustomEdgeType>();
+  const { getNodes, setNodes, setEdges } = useWorkflowInstance();
 
   // ----------------------------------------------------------------------------------------------------
 

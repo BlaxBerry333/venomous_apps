@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { memo, useEffect, useMemo } from "react";
 
-import { ConnectionLineType, MarkerType, ReactFlow, useReactFlow } from "@xyflow/react";
+import { ConnectionLineType, MarkerType, ReactFlow } from "@xyflow/react";
 import { isEqual } from "lodash-es";
 
 // import "@xyflow/react/dist/style.css";
@@ -21,16 +21,13 @@ import {
   useWorkflowUndoRedo,
 } from "~/common/hooks/use-dashboard-workflow";
 import useWorkflowCustomHotkeys from "~/common/hooks/use-dashboard-workflow/useWorkflowCustomHotkeys";
+import useWorkflowInstance from "~/common/hooks/use-dashboard-workflow/useWorkflowInstance";
 import {
   initialElements,
   type WorkflowElementsType,
 } from "~/common/hooks/use-dashboard-workflow/useWorkflowUndoRedo";
 import useCustomThemesContextValue from "~/common/hooks/use-dashboard/useCustomThemesContextValue";
-import {
-  CustomEdgeTypeName,
-  type CustomEdgeType,
-  type CustomNodeType,
-} from "~/common/types/dashboard-workflow";
+import { CustomEdgeTypeName } from "~/common/types/dashboard-workflow";
 import { DASHBOARD_WORKFLOW_CONFIGS } from "~/configs";
 import { customEdgeComponentsTypes } from "../custom-edges";
 import { customNodeComponentsTypes } from "../custom-nodes";
@@ -45,7 +42,7 @@ const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
 
   // ----------------------------------------------------------------------------------------------------
 
-  const { setNodes, setEdges } = useReactFlow<CustomNodeType, CustomEdgeType>();
+  const { setNodes, setEdges } = useWorkflowInstance();
 
   const { elements } = useWorkflowUndoRedo();
 

@@ -1,8 +1,6 @@
 import type { FC } from "react";
 import { memo, useCallback } from "react";
 
-import { useReactFlow } from "@xyflow/react";
-
 import { Icon } from "@iconify/react";
 
 import MuiLoadingButton from "@mui/lab/LoadingButton";
@@ -15,9 +13,10 @@ import MuiTypography from "@mui/material/Typography";
 
 import { CustomSquareBlock } from "~/common/components/custom/buttons";
 import useBoolean from "~/common/hooks/_base/useBoolean";
+import useWorkflowInstance from "~/common/hooks/use-dashboard-workflow/useWorkflowInstance";
 
 const ActionButtonSave: FC = () => {
-  const { getNodes, getEdges } = useReactFlow();
+  const { getNodes, getEdges } = useWorkflowInstance();
 
   const nodes = getNodes();
   const edges = getEdges();

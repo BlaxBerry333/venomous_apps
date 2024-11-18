@@ -1,12 +1,28 @@
 import type { FC } from "react";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useMemo } from "react";
 
 import { CustomNodeWrapper } from "~/common/components/sections/dashboard-workflow/custom-nodes/_CustomNodeWrapper";
 import useWorkflowCustomNodeDataUpdate from "~/common/hooks/use-dashboard-workflow/useWorkflowCustomNodeDataUpdate";
-import { CustomNodeTypeName, type CustomNodeProps } from "~/common/types/dashboard-workflow";
+import {
+  CustomNodeTypeName,
+  type CustomNodeDataType,
+  type CustomNodeProps,
+} from "~/common/types/dashboard-workflow";
 
 const CustomConditionNode: FC<CustomNodeProps> = (nodeProps) => {
+  const { id, data } = nodeProps;
+
   const { updateNodeFormData } = useWorkflowCustomNodeDataUpdate();
+
+  const multipleConnectionItems = useMemo<CustomNodeDataType["multipleConnectionItems"]>(
+    () =>
+      data.form?.value?.items?.map((item, index) => ({
+        id: item.id,
+        text: item.title,
+        index,
+      })),
+    [data.form?.value.items],
+  );
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -21,8 +37,8 @@ const CustomConditionNode: FC<CustomNodeProps> = (nodeProps) => {
         ],
       },
     };
-    updateNodeFormData(nodeProps.id, MOCK_FORM_DATA);
-  }, [updateNodeFormData, nodeProps.id]);
+    updateNodeFormData(id, MOCK_FORM_DATA);
+  }, [updateNodeFormData, id]);
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -33,6 +49,7 @@ const CustomConditionNode: FC<CustomNodeProps> = (nodeProps) => {
       data={{
         ...nodeProps.data,
         isMultipleConnectionSources: true,
+        multipleConnectionItems,
       }}
     >
       <form

@@ -1,20 +1,15 @@
 import type { FC } from "react";
 import { memo, useCallback } from "react";
 
-import { useReactFlow } from "@xyflow/react";
-
 import { Icon } from "@iconify/react";
 
 import MuiIconButton from "@mui/material/IconButton";
 import MuiPaper from "@mui/material/Paper";
 
 import { useWorkflowUndoRedo } from "~/common/hooks/use-dashboard-workflow";
+import useWorkflowInstance from "~/common/hooks/use-dashboard-workflow/useWorkflowInstance";
 import { WorkFlowActionEventName } from "~/common/hooks/use-dashboard-workflow/useWorkflowUndoRedo";
-import type {
-  CustomEdgeProps,
-  CustomEdgeType,
-  CustomNodeType,
-} from "~/common/types/dashboard-workflow";
+import type { CustomEdgeProps } from "~/common/types/dashboard-workflow";
 
 const CustomEdgeWrapperDeleteLabel: FC<{
   edgeProps: CustomEdgeProps;
@@ -32,7 +27,7 @@ const CustomEdgeWrapperDeleteLabel: FC<{
 
   // ----------------------------------------------------------------------------------------------------
 
-  const { setEdges } = useReactFlow<CustomNodeType, CustomEdgeType>();
+  const { setEdges } = useWorkflowInstance();
 
   const onEdgeClick = useCallback(() => {
     setEdges((edges) => edges.filter((edge) => edge.id !== id));

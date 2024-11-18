@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { memo, useMemo } from "react";
+import { memo } from "react";
 
 import MuiBox from "@mui/material/Box";
 import MuiTypography from "@mui/material/Typography";
@@ -67,6 +67,7 @@ const CustomNodeWrapperConnectionTargetHandler: FC<CustomNodeProps> = (nodeProps
 const CustomNodeWrapperConnectionMultipleSourceHandler: FC<CustomNodeProps> = (nodeProps) => {
   const { isConnectable, data } = nodeProps;
   const isMultipleConnectionSources = data.isMultipleConnectionSources;
+  const multipleConnectionItems = data.multipleConnectionItems;
 
   const { commonNodeHandlerStyles } = useWorkflowNodeStyles(nodeProps);
 
@@ -76,17 +77,15 @@ const CustomNodeWrapperConnectionMultipleSourceHandler: FC<CustomNodeProps> = (n
 
   // ----------------------------------------------------------------------------------------------------
 
-  const multipleItems = useMemo(() => data.form?.value.items || [], [data.form?.value.items]);
-
   // ----------------------------------------------------------------------------------------------------
 
-  if (!isMultipleConnectionSources) {
+  if (!isMultipleConnectionSources || !multipleConnectionItems?.length) {
     return null;
   }
 
   return (
     <>
-      {multipleItems.map((item) => (
+      {multipleConnectionItems?.map((item) => (
         <MuiBox
           key={item.id}
           component="div"
@@ -98,11 +97,12 @@ const CustomNodeWrapperConnectionMultipleSourceHandler: FC<CustomNodeProps> = (n
           }}
         >
           <MuiTypography variant="subtitle2" noWrap sx={{ height: "100%", lineHeight: "40px" }}>
-            {item.title}
+            {item.text}
           </MuiTypography>
 
           <_Handle
             type="source"
+            id={String(item.id)}
             position={_Position.Right}
             isConnectable={isConnectable}
             onConnect={onHandlerConnect}

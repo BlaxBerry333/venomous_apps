@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 
 import type { XYPosition } from "@xyflow/react";
-import { useReactFlow } from "@xyflow/react";
 
 import { DASHBOARD_WORKFLOW_CONFIGS } from "~/configs";
+import useWorkflowInstance from "./useWorkflowInstance";
 
 export const supportedViewZoomLevels: string[] = ["200%", "150%", "100%", "50%"] as const;
 
@@ -15,7 +15,8 @@ export const getZoomLevelName = (levelValue: number): string => {
 };
 
 export default function useWorkflowCustomViewport() {
-  const { getViewport, setCenter, setViewport, zoomIn, zoomOut, zoomTo, fitView } = useReactFlow();
+  const { getViewport, setCenter, setViewport, zoomIn, zoomOut, zoomTo, fitView } =
+    useWorkflowInstance();
 
   // ----------------------------------------------------------------------------------------------------
 

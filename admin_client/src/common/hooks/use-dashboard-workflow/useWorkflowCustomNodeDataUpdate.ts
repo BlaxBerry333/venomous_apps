@@ -1,16 +1,12 @@
 import { useCallback } from "react";
 
-import { useReactFlow } from "@xyflow/react";
-
-import type {
-  CustomEdgeType,
-  CustomNodeDataType,
-  CustomNodeType,
-} from "~/common/types/dashboard-workflow";
+import { isEqual } from "lodash-es";
+import type { CustomNodeDataType, CustomNodeType } from "~/common/types/dashboard-workflow";
+import useWorkflowInstance from "./useWorkflowInstance";
 import useWorkflowUndoRedo, { WorkFlowActionEventName } from "./useWorkflowUndoRedo";
 
 function useWorkflowCustomNodeDataUpdate() {
-  const { setNodes } = useReactFlow<CustomNodeType, CustomEdgeType>();
+  const { setNodes, getNode } = useWorkflowInstance();
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -20,24 +16,29 @@ function useWorkflowCustomNodeDataUpdate() {
 
   const updateNodeFormData = useCallback(
     (nodeId: CustomNodeType["id"], nodeForm: Required<CustomNodeDataType["form"]>) => {
-      setNodes((nodes) =>
-        nodes.map((n) => {
-          if (n.id !== nodeId) {
-            return n;
-          }
-          return {
-            ...n,
-            data: {
-              ...n.data,
-              form: nodeForm,
-            },
-          };
-        }),
-      );
+      const node = getNode(nodeId);
+      const nodeFormValue = node?.data.form?.value;
 
-      updateUndoRedoHistory(WorkFlowActionEventName.onNodeDataUpdated);
+      if (!isEqual(nodeFormValue, nodeForm?.value)) {
+        setNodes((nodes) =>
+          nodes.map((n) => {
+            if (n.id !== nodeId) {
+              return n;
+            }
+            return {
+              ...n,
+              data: {
+                ...n.data,
+                form: nodeForm,
+              },
+            };
+          }),
+        );
+
+        updateUndoRedoHistory(WorkFlowActionEventName.onNodeDataUpdated);
+      }
     },
-    [setNodes, updateUndoRedoHistory],
+    [getNode, setNodes, updateUndoRedoHistory],
   );
 
   return {

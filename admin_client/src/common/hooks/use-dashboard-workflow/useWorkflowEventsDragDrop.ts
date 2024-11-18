@@ -1,13 +1,9 @@
-import { useReactFlow } from "@xyflow/react";
 import { useCallback } from "react";
 
 import { getLastNode } from "~/common/components/sections/dashboard-workflow/_helpers";
-import type {
-  CustomEdgeType,
-  CustomNodeMenuListItemType,
-  CustomNodeType,
-} from "~/common/types/dashboard-workflow";
+import type { CustomNodeMenuListItemType, CustomNodeType } from "~/common/types/dashboard-workflow";
 
+import useWorkflowInstance from "./useWorkflowInstance";
 import useWorkflowUndoRedo, { WorkFlowActionEventName } from "./useWorkflowUndoRedo";
 
 export default function useWorkflowEventsDragDrop() {
@@ -29,10 +25,7 @@ export default function useWorkflowEventsDragDrop() {
     event.preventDefault();
   }, []);
 
-  const { screenToFlowPosition, getNodes, setNodes } = useReactFlow<
-    CustomNodeType,
-    CustomEdgeType
-  >();
+  const { screenToFlowPosition, getNodes, setNodes } = useWorkflowInstance();
 
   /** 在 Canvas 中松开拖入的页面上其他元素  */
   const handleOnDrop: React.DragEventHandler = useCallback(

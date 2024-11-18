@@ -84,10 +84,19 @@ export default function useWorkflowUndoRedo() {
       await new Promise((resolve) => setTimeout(resolve, 250));
       switch (actionEventName) {
         case WorkFlowActionEventName.onInit:
+        case WorkFlowActionEventName.onNodeDragStop:
+          update({
+            actionEventName,
+            elements: {
+              nodes: getState().nodes,
+              edges: getState().edges,
+            },
+          });
+          break;
+
         case WorkFlowActionEventName.onConnect:
         case WorkFlowActionEventName.onReconnect:
         case WorkFlowActionEventName.onDrop:
-        case WorkFlowActionEventName.onNodeDragStop:
         case WorkFlowActionEventName.onDelete:
         case WorkFlowActionEventName.onEdgesDelete:
         case WorkFlowActionEventName.onNodesDelete:
@@ -101,6 +110,7 @@ export default function useWorkflowUndoRedo() {
             },
           });
           break;
+
         default:
           break;
       }

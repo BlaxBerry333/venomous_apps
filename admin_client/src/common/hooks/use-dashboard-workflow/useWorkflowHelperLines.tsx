@@ -2,16 +2,16 @@ import { useCallback, useState } from "react";
 
 import {
   applyNodeChanges,
-  useReactFlow,
   type NodeChange,
   type NodePositionChange,
   type OnNodesChange,
   type XYPosition,
 } from "@xyflow/react";
-import type { CustomEdgeType, CustomNodeType } from "~/common/types/dashboard-workflow";
+import type { CustomNodeType } from "~/common/types/dashboard-workflow";
+import useWorkflowInstance from "./useWorkflowInstance";
 
 export default function useWorkflowHelperLines() {
-  const { setNodes } = useReactFlow<CustomNodeType, CustomEdgeType>();
+  const { setNodes } = useWorkflowInstance();
 
   // ----------------------------------------------------------------------------------------------------
 

@@ -20,6 +20,11 @@ export type CustomNodeDataType = {
     isValid: boolean;
   };
   isMultipleConnectionSources?: boolean /** 节点是否有多个结束连接点 ( source → sourceHandle ) */;
+  multipleConnectionItems?: Array<{
+    id: string | number;
+    index: number;
+    text: string;
+  }>;
 };
 
 export type CustomNodeComponentsType = Record<
