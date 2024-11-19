@@ -152,11 +152,11 @@ const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
         edgesFocusable={false} /** 是否可以使用 Tab 切换边 */
         nodeDragThreshold={5} /** 节点被拖拽了指定 px 之后才会真正在Canvas上移动，可防止失误移动 */
         connectionRadius={DASHBOARD_WORKFLOW_CONFIGS.NodeMinWidth / 4} /** 节点连接的 px 范围 */
-        snapToGrid={gridLayout.value}
-        snapGrid={gridLayoutGap}
+        snapToGrid={gridLayout.value} /** 是否使用 Grid 布局 */
+        snapGrid={gridLayoutGap} /** 布局间隔 */
         // ----------------------------------------------------------------------------------------------------
-        nodeTypes={customNodeComponentsTypes}
-        edgeTypes={customEdgeComponentsTypes}
+        nodeTypes={customNodeComponentsTypes} /** 自定义节点组件 */
+        edgeTypes={customEdgeComponentsTypes} /** 自定义边组件 */
         connectionLineType={ConnectionLineType.Bezier} /** 连接中的边的种类 */
         connectionLineStyle={{ strokeWidth: 3 }} /** 连接中的边的样式 */
         defaultEdgeOptions={{
@@ -164,6 +164,7 @@ const WorkflowPlayground: FC<WorkflowElementsType> = (newData) => {
           markerEnd: { type: MarkerType.ArrowClosed } /** 连接拖拽时的边的箭头种类 */,
           // style: { strokeWidth: 2 } /** 连接拖拽时的边的样式 */,
         }}
+        deleteKeyCode={null} /** 默认删除节点与边的快捷键 */
         // ----------------------------------------------------------------------------------------------------
         proOptions={{ hideAttribution: true }}
       >

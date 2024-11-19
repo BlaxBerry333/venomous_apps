@@ -31,7 +31,7 @@ const CustomEdgeWrapperDeleteLabel: FC<{
 
   const onEdgeClick = useCallback(() => {
     setEdges((edges) => edges.filter((edge) => edge.id !== id));
-    updateUndoRedoHistory(WorkFlowActionEventName.onEdgesDelete);
+    updateUndoRedoHistory(WorkFlowActionEventName.DeleteEdgeByLabel);
   }, [setEdges, id, updateUndoRedoHistory]);
 
   // ----------------------------------------------------------------------------------------------------

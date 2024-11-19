@@ -1,26 +1,29 @@
 import { useCallback } from "react";
 
-import { useStoreApi } from "@xyflow/react";
-
 import { temporal, type TemporalState } from "zundo";
 import { create, useStore } from "zustand";
 
 import { type CustomEdgeType, type CustomNodeType } from "~/common/types/dashboard-workflow";
 import { DASHBOARD_WORKFLOW_CONFIGS } from "~/configs";
+import useWorkflowInstance from "./useWorkflowInstance";
 
 // ----------------------------------------------------------------------------------------------------
 
 export enum WorkFlowActionEventName {
-  onInit = "onInit",
-  onConnect = "onConnect", // 不建议在 Flow 组件的事件上处理连接逻辑, 建议通过 Handler 组件的 onConnect 事件处理
-  onReconnect = "onReconnect",
-  onNodeDragStop = "onNodeDragStop",
-  onDrop = "onDrop",
-  onDelete = "onDelete", // 同时删除 node 或 edge 时统一处理
-  onNodesDelete = "onNodesDelete", // 仅删除 nodes ( 不建议分别处理 node 与 edge 的删除逻辑, 会导致2次状态的存储 )
-  onEdgesDelete = "onEdgesDelete", // 仅删除 edges ( 不建议分别处理 node 与 edge 的删除逻辑, 会导致2次状态的存储 )
-  onNodeDataUpdated = "onNodeDataUpdated",
-  onNodeCopyPasted = "onNodeCopyPasted",
+  Init = "Init" /* onInit 事件 */,
+  Connect = "Connect" /* Handler.onConnect 事件 */, // 不建议在 ReactFlow 组件的 onConnect 事件而是建议通过 Handler 组件的 onConnect 事件
+  Reconnect = "Reconnect" /* onReconnect 事件 */,
+  MoveNode = "MoveNode" /* onNodeDragStop 事件 */,
+  AddNode = "AddNode" /* onDrop 事件 */,
+  DeleteNodes = "DeleteNodes", // 仅所有删除选中的 nodes
+  DeleteEdges = "DeleteEdges", // 仅所有删除除选中的 edges
+  DeleteElements = "DeleteElements", // 同时删除所有选中的 nodes 与 edges
+  DeleteOneNode = "DeleteOneNode", // 仅删除一个选中的 node
+  DeleteOneEdge = "DeleteOneEdge", // 仅删除一个选中的 edge
+  DeleteEdgeByLabel = "DeleteEdgeByLabel", // 通过 edge 的关闭 label 后删除
+  DeleteEdgeByDrop = "DeleteEdgeByDrop", // 通过拖拽 edge 离开 node 后删除
+  UpdateNodeData = "UpdateNodeData", // 更新 node 的数据
+  PastedCopiedNode = "PastedCopiedNode", // 粘贴 nodes
 }
 
 export const initialElements: WorkflowElementsType = {
@@ -66,6 +69,7 @@ const useWorkflowUndoRedoStore = create(
 // ----------------------------------------------------------------------------------------------------
 
 export default function useWorkflowUndoRedo() {
+  const { getNodes, getEdges } = useWorkflowInstance();
   const undoRedoStore = useWorkflowUndoRedoStore();
   const { undo, redo, futureStates, pastStates } = useStore(
     useWorkflowUndoRedoStore.temporal,
@@ -77,36 +81,38 @@ export default function useWorkflowUndoRedo() {
     update,
   } = undoRedoStore;
 
-  const { getState } = useStoreApi<CustomNodeType, CustomEdgeType>();
-
   const updateUndoRedoHistory = useCallback(
     async (actionEventName: WorkFlowActionEventName) => {
       await new Promise((resolve) => setTimeout(resolve, 250));
       switch (actionEventName) {
-        case WorkFlowActionEventName.onInit:
-        case WorkFlowActionEventName.onNodeDragStop:
+        case WorkFlowActionEventName.Init:
+        case WorkFlowActionEventName.MoveNode:
           update({
             actionEventName,
             elements: {
-              nodes: getState().nodes,
-              edges: getState().edges,
+              nodes: getNodes(),
+              edges: getEdges(),
             },
           });
           break;
 
-        case WorkFlowActionEventName.onConnect:
-        case WorkFlowActionEventName.onReconnect:
-        case WorkFlowActionEventName.onDrop:
-        case WorkFlowActionEventName.onDelete:
-        case WorkFlowActionEventName.onEdgesDelete:
-        case WorkFlowActionEventName.onNodesDelete:
-        case WorkFlowActionEventName.onNodeDataUpdated:
-        case WorkFlowActionEventName.onNodeCopyPasted:
+        case WorkFlowActionEventName.Connect:
+        case WorkFlowActionEventName.Reconnect:
+        case WorkFlowActionEventName.AddNode:
+        case WorkFlowActionEventName.DeleteNodes:
+        case WorkFlowActionEventName.DeleteOneNode:
+        case WorkFlowActionEventName.DeleteEdges:
+        case WorkFlowActionEventName.DeleteOneEdge:
+        case WorkFlowActionEventName.DeleteEdgeByLabel:
+        case WorkFlowActionEventName.DeleteEdgeByDrop:
+        case WorkFlowActionEventName.DeleteElements:
+        case WorkFlowActionEventName.UpdateNodeData:
+        case WorkFlowActionEventName.PastedCopiedNode:
           update({
             actionEventName,
             elements: {
-              nodes: getState().nodes.map((n) => ({ ...n, selected: false })),
-              edges: getState().edges.map((e) => ({ ...e, selected: false })),
+              nodes: getNodes().map((n) => ({ ...n, selected: false })),
+              edges: getEdges().map((e) => ({ ...e, selected: false })),
             },
           });
           break;
@@ -115,7 +121,7 @@ export default function useWorkflowUndoRedo() {
           break;
       }
     },
-    [update, getState],
+    [update, getNodes, getEdges],
   );
 
   const handleAfterTemporalAction = useCallback(async (action: () => void) => {
@@ -132,7 +138,7 @@ export default function useWorkflowUndoRedo() {
     pastStates,
     undo: () => handleAfterTemporalAction(() => undo()),
     redo: () => handleAfterTemporalAction(() => redo()),
-    canUndo: !!pastStates.length && actionEventName !== WorkFlowActionEventName.onInit,
+    canUndo: !!pastStates.length && actionEventName !== WorkFlowActionEventName.Init,
     canRedo: !!futureStates.length,
   };
 }

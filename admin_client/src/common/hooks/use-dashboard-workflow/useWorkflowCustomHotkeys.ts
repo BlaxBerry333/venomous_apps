@@ -4,7 +4,8 @@ import useWorkflowCustomCopyPasteDelete from "./useWorkflowCustomCopyPasteDelete
 import useWorkflowUndoRedo from "./useWorkflowUndoRedo";
 
 export default function useWorkflowCustomHotkeys() {
-  const { copySelectedNodes, pasteStoredNodes } = useWorkflowCustomCopyPasteDelete();
+  const { copySelectedNodes, pasteStoredNodes, deleteSelectedElements } =
+    useWorkflowCustomCopyPasteDelete();
 
   const { canUndo, canRedo, undo, redo } = useWorkflowUndoRedo();
 
@@ -25,11 +26,20 @@ export default function useWorkflowCustomHotkeys() {
   );
 
   useHotkeys(
+    DASHBOARD_WORKFLOW_CONFIGS.CanvasHotkeys.DeleteElements,
+    () => deleteSelectedElements(),
+    { enabled: true, preventDefault: true },
+    [deleteSelectedElements],
+  );
+
+  // ----------------------------------------------------------------------------------------------------
+
+  useHotkeys(
     DASHBOARD_WORKFLOW_CONFIGS.CanvasHotkeys.Undo,
     () => {
       if (canUndo) undo();
     },
-    { enabled: true, preventDefault: true },
+    { enabled: canUndo, preventDefault: true },
     [undo, canUndo],
   );
 
@@ -38,7 +48,7 @@ export default function useWorkflowCustomHotkeys() {
     () => {
       if (canRedo) redo();
     },
-    { enabled: true, preventDefault: true },
+    { enabled: canRedo, preventDefault: true },
     [redo, canRedo],
   );
 }

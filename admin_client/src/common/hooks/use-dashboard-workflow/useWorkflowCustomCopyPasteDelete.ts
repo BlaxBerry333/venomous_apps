@@ -10,7 +10,7 @@ const WORKFLOW_COPIED_NODES_KEY = "__VENOMOUS_APP__WORKFLOW_COPIED_NODES";
 const WORKFLOW_COPIED_EDGES_KEY = "__VENOMOUS_APP__WORKFLOW_COPIED_EDGES";
 
 export default function useWorkflowCustomCopyPasteDelete() {
-  const { getNodes, setNodes, setEdges } = useWorkflowInstance();
+  const { getNodes, getEdges, setNodes, setEdges } = useWorkflowInstance();
 
   // ----------------------------------------------------------------------------------------------------
 
@@ -30,12 +30,6 @@ export default function useWorkflowCustomCopyPasteDelete() {
       setSessionStorageItem(WORKFLOW_COPIED_EDGES_KEY, JSON.stringify(relatedEdges));
     }
   }, [getNodes]);
-
-  /** 删除所有选中的节点 */
-  const deleteSelectedNodes = useCallback(() => {
-    setNodes((nodes) => nodes.filter((node) => !node.selected));
-    setEdges((edges) => edges.filter((edge) => !edge.selected));
-  }, [setNodes, setEdges]);
 
   const pasteCount = useRef<number>(0);
 
@@ -64,13 +58,61 @@ export default function useWorkflowCustomCopyPasteDelete() {
 
     if (copiedNodes?.length || copiedEdges?.length) {
       pasteCount.current += 1;
-      updateUndoRedoHistory(WorkFlowActionEventName.onNodeCopyPasted);
+      updateUndoRedoHistory(WorkFlowActionEventName.PastedCopiedNode);
     }
   }, [getNodes, setNodes, updateUndoRedoHistory]);
 
+  /** 删除所有选中的节点 */
+  const deleteSelectedNodes = useCallback(() => {
+    setNodes((nodes) => nodes.filter((node) => !node.selected));
+  }, [setNodes]);
+
+  /** 删除所有选中的边 */
+  const deleteSelectedEdges = useCallback(() => {
+    setEdges((edges) => edges.filter((edge) => !edge.selected));
+  }, [setEdges]);
+
+  /** 删除所有选中的节点或边 */
+  const deleteSelectedElements = useCallback(() => {
+    const selectedNodes = getNodes().filter((n) => n.selected);
+    const selectedEdges = getEdges().filter((e) => e.selected);
+
+    const hasSelectedNodes: boolean = selectedNodes.length > 0;
+    const hasSelectedEdges: boolean = selectedEdges.length > 0;
+
+    // 如果没有选中节点和边，则不做任何操作
+    if (!hasSelectedNodes && !hasSelectedEdges) return;
+    // 删除选中的节点
+    if (hasSelectedNodes) deleteSelectedNodes();
+    // 删除选中的边
+    if (hasSelectedEdges) deleteSelectedEdges();
+
+    if (hasSelectedNodes && !hasSelectedEdges) {
+      const actionEventName: WorkFlowActionEventName =
+        selectedNodes.length === 1
+          ? WorkFlowActionEventName.DeleteOneNode
+          : WorkFlowActionEventName.DeleteNodes;
+      updateUndoRedoHistory(actionEventName);
+      return;
+    }
+    if (hasSelectedEdges && !hasSelectedNodes) {
+      const actionEventName: WorkFlowActionEventName =
+        selectedEdges.length === 1
+          ? WorkFlowActionEventName.DeleteOneEdge
+          : WorkFlowActionEventName.DeleteEdges;
+      updateUndoRedoHistory(actionEventName);
+      return;
+    }
+    if (hasSelectedNodes && hasSelectedEdges) {
+      updateUndoRedoHistory(WorkFlowActionEventName.DeleteElements);
+    }
+  }, [getNodes, getEdges, deleteSelectedNodes, deleteSelectedEdges, updateUndoRedoHistory]);
+
   return {
     copySelectedNodes,
-    deleteSelectedNodes,
     pasteStoredNodes,
+    deleteSelectedNodes,
+    deleteSelectedEdges,
+    deleteSelectedElements,
   };
 }

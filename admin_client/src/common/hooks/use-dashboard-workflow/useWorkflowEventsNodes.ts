@@ -79,7 +79,7 @@ export default function useWorkflowEventsNodes() {
       const { x, y } = nodeDragStartPosition.current;
       if (!(x === node.position.x && y === node.position.y)) {
         if (x !== 0 && y !== 0) {
-          updateUndoRedoHistory(WorkFlowActionEventName.onNodeDragStop);
+          updateUndoRedoHistory(WorkFlowActionEventName.MoveNode);
         }
       }
     },
@@ -92,7 +92,7 @@ export default function useWorkflowEventsNodes() {
   const onNodesDelete: OnNodesDelete<CustomNodeType> = useCallback(
     async (nodes: CustomNodeType[]) => {
       console.log("onNodesDelete", nodes);
-      // 不建议分别处理 node 与 edge 的删除逻辑。会导致2次状态的存储
+      // 不建议使用该事件记录 UndoRedo, 建议关闭默认删除热键并通过自定义 Hotkey 处理
     },
     [],
   );

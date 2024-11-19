@@ -49,13 +49,20 @@ export default function useWorkflowEventsConnection() {
       console.log("onConnect", connection);
 
       const currentEdges = getEdges();
-      const isStartNodeAlreadyConnected: boolean = currentEdges.some(
-        (e) => e.source === connection.source && connection.source === "1",
-      );
-      if (isStartNodeAlreadyConnected) {
-        setEdges((eds) => eds.filter((e) => e.source !== "1"));
-      }
 
+      const isNodeAlreadyConnected: boolean = !!currentEdges.find((edge) => {
+        const isDifferentTarget: boolean = connection.target !== edge.target;
+        if (!connection.sourceHandle) {
+          const isSameSource: boolean = connection.source === edge.source;
+          return isDifferentTarget && isSameSource;
+        }
+        const isSameSourceHandle: boolean = connection.sourceHandle === edge.sourceHandle;
+        return isDifferentTarget && isSameSourceHandle;
+      });
+
+      if (isNodeAlreadyConnected) {
+        setEdges((eds) => eds.filter((e) => e.source !== connection.source));
+      }
       setEdges((els) => addEdge(connection, els));
       // 不建议在此处 onConnect、onConnectEnd 处理连接逻辑。会导致多次状态的存储
       // 建议在 Handler 组件的 onConnect 事件处理
@@ -72,7 +79,7 @@ export default function useWorkflowEventsConnection() {
   const onHandlerConnect: OnConnect = useCallback(
     (connection: Connection) => {
       console.log("Handler's onConnect", connection);
-      updateUndoRedoHistory(WorkFlowActionEventName.onConnect);
+      updateUndoRedoHistory(WorkFlowActionEventName.Connect);
     },
     [updateUndoRedoHistory],
   );
@@ -95,7 +102,7 @@ export default function useWorkflowEventsConnection() {
       setEdges((els) => reconnectEdge(oldEdge, newConnection, els));
 
       if (!(oldEdge.target === newConnection.target)) {
-        updateUndoRedoHistory(WorkFlowActionEventName.onReconnect);
+        updateUndoRedoHistory(WorkFlowActionEventName.Reconnect);
       }
     },
     [setEdges, updateUndoRedoHistory],
@@ -107,7 +114,7 @@ export default function useWorkflowEventsConnection() {
       console.log("onReconnectEnd", edge);
       if (!edgeReconnectSuccessful.current) {
         setEdges((eds) => eds.filter((e) => e.id !== edge.id));
-        updateUndoRedoHistory(WorkFlowActionEventName.onEdgesDelete);
+        updateUndoRedoHistory(WorkFlowActionEventName.DeleteEdgeByDrop);
       }
       edgeReconnectSuccessful.current = true;
     },

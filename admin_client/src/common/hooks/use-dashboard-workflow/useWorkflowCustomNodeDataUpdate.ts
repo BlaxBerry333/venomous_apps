@@ -35,7 +35,7 @@ function useWorkflowCustomNodeDataUpdate() {
           }),
         );
 
-        updateUndoRedoHistory(WorkFlowActionEventName.onNodeDataUpdated);
+        updateUndoRedoHistory(WorkFlowActionEventName.UpdateNodeData);
       }
     },
     [getNode, setNodes, updateUndoRedoHistory],

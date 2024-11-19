@@ -22,7 +22,7 @@ export default function useWorkflowGeneralEvents() {
       const firstNodePosition = { x: 0, y: 0 };
       setViewportInitPosition(firstNodePosition);
 
-      updateUndoRedoHistory(WorkFlowActionEventName.onInit);
+      updateUndoRedoHistory(WorkFlowActionEventName.Init);
     },
     [setViewportInitPosition, updateUndoRedoHistory],
   );
@@ -47,13 +47,10 @@ export default function useWorkflowGeneralEvents() {
   );
 
   /** 节点或边被删除时 */
-  const onDelete: OnDelete<CustomNodeType, CustomEdgeType> = useCallback(
-    (elements) => {
-      console.log("onDelete", elements);
-      updateUndoRedoHistory(WorkFlowActionEventName.onDelete);
-    },
-    [updateUndoRedoHistory],
-  );
+  const onDelete: OnDelete<CustomNodeType, CustomEdgeType> = useCallback((elements) => {
+    console.log("onDelete", elements);
+    // 不建议使用该事件记录 UndoRedo, 建议关闭默认删除热键并通过自定义 Hotkey 处理
+  }, []);
 
   // ----------------------------------------------------------------------------------------------------
 

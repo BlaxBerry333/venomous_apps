@@ -17,7 +17,7 @@ export default function useWorkflowEventsEdges() {
   /** 边被删除时 */
   const onEdgesDelete: OnEdgesDelete<CustomEdgeType> = useCallback((edges: CustomEdgeType[]) => {
     console.log("onEdgesDelete", edges);
-    // 不建议分别处理 node 与 edge 的删除逻辑。会导致2次状态的存储
+    // 不建议使用该事件记录 UndoRedo, 建议关闭默认删除热键并通过自定义 Hotkey 处理
   }, []);
 
   // ----------------------------------------------------------------------------------------------------

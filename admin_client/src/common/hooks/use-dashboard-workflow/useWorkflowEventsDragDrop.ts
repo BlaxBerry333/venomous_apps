@@ -56,7 +56,7 @@ export default function useWorkflowEventsDragDrop() {
 
       setNodes((nds) => nds.concat(newNode));
 
-      updateUndoRedoHistory(WorkFlowActionEventName.onDrop);
+      updateUndoRedoHistory(WorkFlowActionEventName.AddNode);
     },
     [screenToFlowPosition, getNodes, setNodes, updateUndoRedoHistory],
   );
