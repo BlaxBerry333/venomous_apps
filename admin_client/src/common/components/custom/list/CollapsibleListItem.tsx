@@ -6,7 +6,7 @@ import { Icon } from "@iconify/react";
 import MuiCollapse from "@mui/material/Collapse";
 import MuiList from "@mui/material/List";
 
-import useBoolean from "~/common/hooks/_base/useBoolean";
+import useBoolean from "~/common/hooks/useBoolean";
 import CustomNormalListItem, { type CustomListItemProps } from "./NormalListItem";
 
 type Props = PropsWithChildren<

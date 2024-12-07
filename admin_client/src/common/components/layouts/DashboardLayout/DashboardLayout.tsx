@@ -4,7 +4,7 @@ import { memo } from "react";
 import useTheme from "@mui/material/styles/useTheme";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import useBoolean from "~/common/hooks/_base/useBoolean";
+import useBoolean from "~/common/hooks/useBoolean";
 import { DashboardLayoutContext } from "./context";
 import DashboardLayoutHeader from "./DashboardLayoutHeader";
 import DashboardLayoutMainContainer from "./DashboardLayoutMainContainer";

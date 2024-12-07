@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ROUTE_PATHS } from "~/router";
-import useBoolean from "../_base/useBoolean";
+import useBoolean from "../useBoolean";
 
 export default function useAccount() {
   const navigate = useNavigate();

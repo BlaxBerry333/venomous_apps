@@ -1,4 +1,4 @@
-import type { NamedExoticComponent, PropsWithChildren } from "react";
+import type { NamedExoticComponent, PropsWithChildren, ReactNode } from "react";
 
 import type { Node as _Node, NodeProps as _NodeProps } from "@xyflow/react";
 
@@ -19,12 +19,6 @@ export type CustomNodeDataType = {
     value: CustomNodeDataFormValueType;
     isValid: boolean;
   };
-  isMultipleConnectionSources?: boolean /** 节点是否有多个结束连接点 ( source → sourceHandle ) */;
-  multipleConnectionItems?: Array<{
-    id: string | number;
-    index: number;
-    text: string;
-  }>;
 };
 
 export type CustomNodeComponentsType = Record<
@@ -36,7 +30,22 @@ export type CustomNodeMenuListItemType = {
   type: CustomNodeTypeName;
 };
 
-export type CustomNodeWrapperProps = PropsWithChildren<CustomNodeProps>;
+export type CustomNodeWrapperProps = PropsWithChildren<
+  CustomNodeProps & {
+    isMultipleConnectionSources?: boolean /** 节点是否有多个结束连接点 ( source → sourceHandle ) */;
+    multipleConnectionItems?: Array<{
+      id: string | number;
+      index: number;
+      text: string;
+    }>;
+    renderNodeFormComponent:
+      | false
+      | ((props: {
+          handleFormSubmit: (formValue: CustomNodeDataFormValueType) => void;
+          handleFormCancel: () => void;
+        }) => ReactNode);
+  }
+>;
 
 export type CustomNodeProps = _NodeProps<CustomNodeType>;
 

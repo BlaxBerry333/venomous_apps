@@ -3,11 +3,11 @@ import { darken, lighten } from "@mui/material/styles";
 
 export enum CustomThemePaletteColorName {
   Teal = "Teal",
-  Indigo = "Indigo",
   SkyBlue = "SkyBlue",
+  BlueGrey = "BlueGrey",
   Amber = "Amber",
-  Purple = "Purple",
-  Pink = "Pink",
+  Indigo = "Indigo",
+  Brown = "Brown",
 }
 
 export type CustomThemePaletteColorOptionType = {
@@ -30,23 +30,23 @@ export const CustomThemePaletteColorOptions: Array<CustomThemePaletteColorOption
     },
   },
   {
-    name: CustomThemePaletteColorName.Indigo,
-    palette: {
-      primary: {
-        main: "#3949ab",
-        light: lighten("#3949ab", 0.3),
-        dark: "#1c287d",
-        contrastText: "#FFFFFF",
-      },
-    },
-  },
-  {
     name: CustomThemePaletteColorName.SkyBlue,
     palette: {
       primary: {
         main: "#0097a7",
         light: "#4fb3bf",
         dark: "#006978",
+        contrastText: "#FFFFFF",
+      },
+    },
+  },
+  {
+    name: CustomThemePaletteColorName.BlueGrey,
+    palette: {
+      primary: {
+        main: "#607d8b",
+        light: lighten("#607d8b", 0.2),
+        dark: darken("#607d8b", 0.2),
         contrastText: "#FFFFFF",
       },
     },
@@ -63,25 +63,25 @@ export const CustomThemePaletteColorOptions: Array<CustomThemePaletteColorOption
     },
   },
   {
-    name: CustomThemePaletteColorName.Purple,
+    name: CustomThemePaletteColorName.Indigo,
     palette: {
       primary: {
-        main: "#8e24aa",
-        light: "#ae52d4",
-        dark: "#5e1e8d",
+        main: "#3949ab",
+        light: lighten("#3949ab", 0.3),
+        dark: "#1c287d",
         contrastText: "#FFFFFF",
       },
     },
   },
-  // {
-  //   name: CustomThemePaletteColorName.Pink,
-  //   palette: {
-  //     primary: {
-  //       main: "#d81b60",
-  //       light: "#ff4081",
-  //       dark: "#b40044",
-  //       contrastText: "#FFFFFF",
-  //     },
-  //   },
-  // },
+  {
+    name: CustomThemePaletteColorName.Brown,
+    palette: {
+      primary: {
+        main: "#795548",
+        light: lighten("#795548", 0.2),
+        dark: darken("#795548", 0.2),
+        contrastText: "#FFFFFF",
+      },
+    },
+  },
 ];
